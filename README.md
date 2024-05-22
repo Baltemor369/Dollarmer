@@ -10,4 +10,4 @@ a simple and fun game where you manage money and item with it.
 
 [] inventory management
 
-[] Interface d'affichage des info
+[] easy-use interface 
