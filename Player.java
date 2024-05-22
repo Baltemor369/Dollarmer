@@ -1,3 +1,4 @@
+package mods;
 
 public class Player{
     private int money;
@@ -20,11 +21,8 @@ public class Player{
         this.xp_max = xpMax;
     }
 
-    public void displayInfo() {
-        System.out.println("Player Info: ");
-        System.out.println("Money: " + money);
-        System.out.println("Xp: " + xp + "/" + xp_max);
-        System.out.println("Level: " + level);
+    public String getInfo() {
+        return String.format("<html>Money: %d<br/>Xp: %d/%d<br/>Level: %d</html>", money, xp, xp_max, level);
     }
 
     public int getMoney(){
@@ -46,8 +44,8 @@ public class Player{
     public void gainXp(int amount){
         this.xp += amount;
         if (this.xp>=this.xp_max) {
-            this.level++;
             this.money += this.level*100;
+            this.level++;
             this.xp -=this.xp_max;
             this.xp_max *= 2;
         }
