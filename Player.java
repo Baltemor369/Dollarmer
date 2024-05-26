@@ -1,5 +1,3 @@
-package mods;
-
 public class Player{
     private int money;
     private int xp;
