@@ -1,19 +1,21 @@
 package src;
 import javax.swing.*;
 
-import src.core.Clock;
+// import src.core.Clock;
 import src.core.Player;
 import src.widgets.WButton;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener; 
+import java.awt.event.ActionListener;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 public class App extends JFrame{
     private Player player;
-    private Clock clock;
-    private JLabel playerInfoLabel, clockLabel;
+    private JLabel playerInfoLabel;
     private JButton workButton;
+    private Calendar calendar = Calendar.getInstance();
 
     // Const
     // [Color]
@@ -31,6 +33,8 @@ public class App extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+
+        calendar.set(2024, 1, 1, 6, 0, 0);
         
         // [Panel] main Panel
         JPanel panel = new JPanel();
@@ -45,13 +49,29 @@ public class App extends JFrame{
         headPanel.add(titleLabel, BorderLayout.CENTER);
         
         // [Clock]
-        clockLabel = new JLabel("", SwingConstants.CENTER);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        String dateTimeString = dateFormat.format(calendar.getTime());
+        String timeString = timeFormat.format(calendar.getTime());
+        JLabel clockLabel = new JLabel("<html>"+dateTimeString+"<br>"+timeString+"</html>", SwingConstants.CENTER);
         clockLabel.setFont(FONT_TEXT);
-        
-        clock = new Clock(clockLabel);
+
+        Timer clock = new Timer(2000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                calendar.add(Calendar.MINUTE, 1);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+                String dateTimeString = dateFormat.format(calendar.getTime());
+                String timeString = timeFormat.format(calendar.getTime());
+                clockLabel.setText("<html>"+dateTimeString+"<br>"+timeString+"</html>");
+            }
+        });
         clock.start();
+        
 
         headPanel.add(clockLabel, BorderLayout.WEST);
+
 
         // [Button] Settings
         JButton settingsButton = WButton.createButton(
@@ -104,22 +124,50 @@ public class App extends JFrame{
         workButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                if (!clock.isNightTime()) {
-                    player.earnMoney(10);
-                    player.gainXp(20);
-                    playerInfoLabel.setText(player.getInfo());
-                    clock.addMinutes(10);    
-                }
+                player.earnMoney(10);
+                player.gainXp(20);
+                playerInfoLabel.setText(player.getInfo());
+                calendar.add(Calendar.MINUTE, 10);
             }
         });
         
         buttonPanel.add(workButton);
 
-        JButton sleepButton = WButton.createButton("Sleep", "", 5, 5, 5, 5, new Color(90,90,90), new Color(240,240,240), new Font("Serif", Font.PLAIN, 17));
+        JButton sleepButton = WButton.createButton("Sleep", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
         sleepButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
+                // faire avancer le temps de mon calendar jusqu'à 6h00 du jour d'après
+                // Récupère l'heure actuelle
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
                 
+                // Calcul du nombre de minutes restantes jusqu'à 6h00
+                int minutesUntil6AM;
+                if (hour < 6 || (hour == 6 && minute == 0)) {
+                    // Si c'est avant 6h00 du matin ou si c'est exactement 6h00,
+                    // le delta-temps est simplement la différence entre l'heure actuelle
+                    // et 6h00 du matin
+                    minutesUntil6AM = (6 - hour) * 60 - minute;
+                } else {
+                    // Sinon, il faut ajouter les minutes restantes jusqu'à minuit
+                    // puis ajouter les minutes de 6h00 du matin
+                    minutesUntil6AM = (24 - hour + 6) * 60 - minute;
+                }
+                
+                player.earnMoney((int)(minutesUntil6AM/10));
+                hour = calendar.get(Calendar.HOUR_OF_DAY);
+        
+                // Si l'heure actuelle est après 6h00 du matin
+                if (hour >= 6) {
+                    // Avance jusqu'à 6h00 du jour suivant
+                    calendar.add(Calendar.DATE, 1); // Avance d'un jour
+                }
+                
+                // Définis l'heure à 6h00 du matin
+                calendar.set(Calendar.HOUR_OF_DAY, 6);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
             }
         });
 
@@ -130,7 +178,20 @@ public class App extends JFrame{
         panel.add(buttonPanel, BorderLayout.SOUTH);
         add(panel, BorderLayout.CENTER);
 
+        startEarningMoney();
+
         setVisible(true);
+    }
+
+    private void startEarningMoney() {
+        Timer moneyTimer = new Timer(60000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                player.earnMoney(1);
+                playerInfoLabel.setText(player.getInfo());
+            }
+        });
+        moneyTimer.start();
     }
 
     public static void main(String[] args) throws Exception {

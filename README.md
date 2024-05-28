@@ -1,6 +1,6 @@
 # MoneyGame
 
-a simple and fun game where you manage money and item with it.
+a simple and fun game where you can earn and manage money. Buy everything you want in the shop.
 
 ## Launcher
     
@@ -20,26 +20,6 @@ a simple and fun game where you manage money and item with it.
 
 - easy-use interface
 
-## ToDo
+## Contribution
 
-[] gagner de l'argent avec le temps
-
-[] gagner de l'argent en travaillant
-
-[] choix multiple de travaux avec gain adapté (NomDuTravail ~ Temps ~ Gain)
-
-[] acheter des objets
-
-[] choix parmi différent type de boutiques
-
-[] pouvoir gérer les objets achetés
-
-[] jeter ses objets
-
-[] revendre ses objets
-
-[] louer ses objets
-
-[] acheter des logements
-
-[] pouvoir acheter des logements sur une carte (?) ou choix de la ville, type de logements (appart, house, villa, building, etc), nombre de piece, ...
+- @Baltemor369
