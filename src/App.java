@@ -1,9 +1,9 @@
-package src;
+
 import javax.swing.*;
 
 // import src.core.Clock;
-import src.core.Player;
-import src.widgets.WButton;
+import core.Player;
+import widgets.WButton;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

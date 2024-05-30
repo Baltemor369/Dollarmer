@@ -1,4 +1,4 @@
-package src.widgets;
+package widgets;
 
 import javax.swing.*;
 import java.awt.*;

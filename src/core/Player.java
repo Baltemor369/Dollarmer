@@ -1,4 +1,5 @@
-package src.core;
+package core;
+
 public class Player{
     private int money;
     private int xp;
