@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 public class App extends JFrame{
     private Player player;
     private JLabel playerInfoLabel, clockLabel;
-    private JButton workButton;
     private Calendar calendar = Calendar.getInstance();
 
     // Const
@@ -115,34 +114,17 @@ public class App extends JFrame{
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
 
-        workButton = WButton.createButton(
-            "Work", 
-            "", 
-            5, 
-            5, 
-            5, 
-            5, 
-            BG_BUTTON, 
-            TEXT_COLOR, 
-            FONT_TEXT
-            );
-
-        workButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                if ( 6 <= calendar.get(Calendar.HOUR_OF_DAY) && calendar.get(Calendar.HOUR_OF_DAY) < 21) {
-                    player.earnMoney(10);
-                    player.gainXp(20);
-                    playerInfoLabel.setText(player.getInfo());
-                    calendar.add(Calendar.MINUTE, 10);
-                    
-                    updateClockText();
-                }
-            }
-        });
-        
+        // [Button] DogSitting
+        JButton workButton = createActivity("DogSitting 1h 10$", 1, 0, 10, 5);
         buttonPanel.add(workButton);
 
+        // [Button] DogSitting
+        workButton = createActivity("BabySitting 2h 30$", 2, 0, 30, 15);
+        buttonPanel.add(workButton);
+
+        
+
+        // [Button] Sleep
         JButton sleepButton = WButton.createButton("Sleep", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
         sleepButton.addActionListener(new ActionListener() {
             @Override
@@ -172,7 +154,6 @@ public class App extends JFrame{
                 updateClockText();
             }
         });
-
         buttonPanel.add(sleepButton);
 
         panel.add(headPanel, BorderLayout.NORTH);
@@ -193,6 +174,38 @@ public class App extends JFrame{
         String dateTimeString = dateFormat.format(calendar.getTime());
         String timeString = timeFormat.format(calendar.getTime());
         clockLabel.setText("<html>"+dateTimeString+"<br>"+timeString+"</html>");
+    }
+
+    private JButton createActivity(String name, int hour, int minute, int salary, int xp) {
+        JButton workButton = WButton.createButton(
+            name, 
+            "", 
+            5, 
+            5, 
+            5, 
+            5, 
+            BG_BUTTON, 
+            TEXT_COLOR, 
+            FONT_TEXT
+            );
+
+        workButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                if ( 6 <= calendar.get(Calendar.HOUR_OF_DAY) && calendar.get(Calendar.HOUR_OF_DAY) < 21) {
+                    player.earnMoney(salary);
+                    player.gainXp(xp);
+                    
+                    playerInfoLabel.setText(player.getInfo());
+                    
+                    calendar.add(Calendar.HOUR_OF_DAY, hour);
+                    calendar.add(Calendar.MINUTE, minute);
+                    
+                    updateClockText();
+                }
+            }
+        });
+        return workButton;
     }
 
     private void startEarningMoney() {

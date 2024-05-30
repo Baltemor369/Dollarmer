@@ -25,35 +25,3 @@ public class WButton {
         return button;
     }
 }
-
-// new Dimension(100, 50),
-// new Color(80,80,80),
-// Color.WHITE,
-// new Font("Serif", Font.PLAIN, 17)
-
-// public class CButton {
-
-//     public static JButton createaButton(String text, Dimension size, Color backgroundColor, Color textColor, Font font) {
-//         JButton button = new JButton(text);
-
-//         
-//         if (backgroundColor != null) {
-//             button.setBackground(backgroundColor);
-//         }
-
-//         if (textColor != null) {
-//             button.setForeground(textColor);
-//         }
-
-//         if (font != null) {
-//             button.setFont(font);
-//         }
-
-//         button.setBorderPainted(false);
-//         button.setMargin(new Insets(0, 0, 0, 0));
-//     }
-
-//     public JButton getButton() {
-//         return button;
-//     }
-// }

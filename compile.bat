@@ -6,4 +6,4 @@ javac -d ../bin App.java core/*.java widgets/*.java
 
 cd ..
 
-java -cp bin src/App
+java -cp bin App
