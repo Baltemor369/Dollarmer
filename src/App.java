@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 
 public class App extends JFrame{
     private Player player;
-    private JLabel playerInfoLabel;
+    private JLabel playerInfoLabel, clockLabel;
     private JButton workButton;
     private Calendar calendar = Calendar.getInstance();
 
@@ -34,7 +34,7 @@ public class App extends JFrame{
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        calendar.set(2024, 1, 1, 6, 0, 0);
+        calendar.set(2024, 0, 1, 6, 0, 0);
         
         // [Panel] main Panel
         JPanel panel = new JPanel();
@@ -53,23 +53,29 @@ public class App extends JFrame{
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         String dateTimeString = dateFormat.format(calendar.getTime());
         String timeString = timeFormat.format(calendar.getTime());
-        JLabel clockLabel = new JLabel("<html>"+dateTimeString+"<br>"+timeString+"</html>", SwingConstants.CENTER);
+        clockLabel = new JLabel("<html>"+dateTimeString+"<br>"+timeString+"</html>", SwingConstants.CENTER);
         clockLabel.setFont(FONT_TEXT);
 
         Timer clock = new Timer(2000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 calendar.add(Calendar.MINUTE, 1);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-                String dateTimeString = dateFormat.format(calendar.getTime());
-                String timeString = timeFormat.format(calendar.getTime());
-                clockLabel.setText("<html>"+dateTimeString+"<br>"+timeString+"</html>");
+
+                updateClockText();
             }
         });
         clock.start();
-        
 
+        Timer clockMoneyGain = new Timer(20000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                player.earnMoney(1);
+
+                playerInfoLabel.setText(player.getInfo());
+            }
+        });
+        clockMoneyGain.start();
+        
         headPanel.add(clockLabel, BorderLayout.WEST);
 
 
@@ -124,10 +130,14 @@ public class App extends JFrame{
         workButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                player.earnMoney(10);
-                player.gainXp(20);
-                playerInfoLabel.setText(player.getInfo());
-                calendar.add(Calendar.MINUTE, 10);
+                if ( 6 <= calendar.get(Calendar.HOUR_OF_DAY) && calendar.get(Calendar.HOUR_OF_DAY) < 21) {
+                    player.earnMoney(10);
+                    player.gainXp(20);
+                    playerInfoLabel.setText(player.getInfo());
+                    calendar.add(Calendar.MINUTE, 10);
+                    
+                    updateClockText();
+                }
             }
         });
         
@@ -137,37 +147,29 @@ public class App extends JFrame{
         sleepButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                // faire avancer le temps de mon calendar jusqu'à 6h00 du jour d'après
-                // Récupère l'heure actuelle
                 int hour = calendar.get(Calendar.HOUR_OF_DAY);
                 int minute = calendar.get(Calendar.MINUTE);
                 
-                // Calcul du nombre de minutes restantes jusqu'à 6h00
                 int minutesUntil6AM;
                 if (hour < 6 || (hour == 6 && minute == 0)) {
-                    // Si c'est avant 6h00 du matin ou si c'est exactement 6h00,
-                    // le delta-temps est simplement la différence entre l'heure actuelle
-                    // et 6h00 du matin
                     minutesUntil6AM = (6 - hour) * 60 - minute;
                 } else {
-                    // Sinon, il faut ajouter les minutes restantes jusqu'à minuit
-                    // puis ajouter les minutes de 6h00 du matin
                     minutesUntil6AM = (24 - hour + 6) * 60 - minute;
                 }
                 
                 player.earnMoney((int)(minutesUntil6AM/10));
+                playerInfoLabel.setText(player.getInfo());
                 hour = calendar.get(Calendar.HOUR_OF_DAY);
         
-                // Si l'heure actuelle est après 6h00 du matin
                 if (hour >= 6) {
-                    // Avance jusqu'à 6h00 du jour suivant
                     calendar.add(Calendar.DATE, 1); // Avance d'un jour
                 }
                 
-                // Définis l'heure à 6h00 du matin
                 calendar.set(Calendar.HOUR_OF_DAY, 6);
                 calendar.set(Calendar.MINUTE, 0);
                 calendar.set(Calendar.SECOND, 0);
+
+                updateClockText();
             }
         });
 
@@ -181,6 +183,16 @@ public class App extends JFrame{
         startEarningMoney();
 
         setVisible(true);
+    }
+
+    private void updateClockText() {
+        
+        // update clock text
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        String dateTimeString = dateFormat.format(calendar.getTime());
+        String timeString = timeFormat.format(calendar.getTime());
+        clockLabel.setText("<html>"+dateTimeString+"<br>"+timeString+"</html>");
     }
 
     private void startEarningMoney() {
