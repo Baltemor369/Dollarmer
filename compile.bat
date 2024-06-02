@@ -1,9 +1,5 @@
 @echo off
 
-cd src
-
-javac -d ../bin App.java core/*.java widgets/*.java
-
-cd ..
+javac -d bin App.java core/*.java widgets/*.java
 
 java -cp bin App

@@ -59,7 +59,6 @@ public class App extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 calendar.add(Calendar.MINUTE, 1);
-
                 updateClockText();
             }
         });
@@ -69,14 +68,11 @@ public class App extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 player.earnMoney(1);
-
                 playerInfoLabel.setText(player.getInfo());
             }
         });
         clockMoneyGain.start();
-        
         headPanel.add(clockLabel, BorderLayout.WEST);
-
 
         // [Button] Settings
         JButton settingsButton = WButton.createButton(
