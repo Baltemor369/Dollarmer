@@ -6,6 +6,7 @@ public class Player{
     private int xp_max;
     private int level;
 
+    // default constructor
     public Player(){
         this.money = 0;
         this.level = 1;
@@ -14,6 +15,7 @@ public class Player{
 
     }
 
+    // constructor
     public Player(int m, int l, int xp, int xpMax){
         this.money = m;
         this.level = l;

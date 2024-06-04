@@ -5,14 +5,13 @@ a simple and fun game where you can earn and manage money. Buy everything you wa
 ## Launcher
     
 1. Clone the project
-2. Unzip the folder
-3. In "MoneyGame", double-click on "compile.bat"
+2. In "MoneyGame", double-click on "run.bat"
 
 ## Features
 
 - gain money by working or spending time.
 
-- buy stuff in a shop depends on your level with money earned.
+- buy stuff in a shop depends on your level.
 
 - buy and rent appartements.
 
