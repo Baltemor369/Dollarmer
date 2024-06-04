@@ -1,9 +1,9 @@
 # MoneyGame
 
-a simple and fun game where you can earn and manage money. Buy everything you want in the shop.
+a simple and fun game where you can earn and manage money. Earn money by spending or doing some work
 
 ## Launcher
-    
+
 1. Clone the project
 2. In "MoneyGame", double-click on "run.bat"
 
