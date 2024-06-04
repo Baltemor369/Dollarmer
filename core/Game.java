@@ -8,10 +8,12 @@ import java.text.SimpleDateFormat;
 
 public class Game {
     private Player _player;
+    private Item _gold;
     private Timer _afkMoneyClock, _timeClock;
     private Calendar _calendar = Calendar.getInstance();
 
     public Game(){
+        _gold = new Item("Gold Ingot", 15);
         _player = new Player();
         _calendar.set(2024, 0, 1, 6, 0, 0);
 
@@ -79,5 +81,9 @@ public class Game {
 
     public Calendar getCalendar(){
         return _calendar;
+    }
+
+    public Item getGold(){
+        return _gold;
     }
 }

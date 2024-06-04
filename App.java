@@ -48,7 +48,9 @@ public class App extends JFrame{
         sleepButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                game.sleep();
+                if (game.getCalendar().get(Calendar.HOUR_OF_DAY) >= 21 && game.getCalendar().get(Calendar.HOUR_OF_DAY) < 6) {
+                    game.sleep();
+                }
             }
         });
 
@@ -94,17 +96,47 @@ public class App extends JFrame{
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BorderLayout()); 
 
+        // [Panel] Shop
+        JPanel shopPanel = new JPanel();
+        shopPanel.setLayout(new FlowLayout());
+
+        // [Button]
+        JButton goldButton = WButton.createButton(
+            game.getGold().getName(), 
+            "", 
+            5,
+            5,
+            5,
+            5, 
+            BG_BUTTON, 
+            BG_BUTTON, 
+            FONT_TEXT
+            );
+        goldButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                game.getPlayer().addItem(game.getGold());
+            }
+        });
+
+        shopPanel.add(goldButton);
+
+        JPanel inventPanel = new JPanel();
+        inventPanel.setLayout(new FlowLayout());
+
+        centerPanel.add(shopPanel, BorderLayout.CENTER);
+
         // [Panel] Button
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.setBorder(new EmptyBorder(0, 0, 30, 0));
 
         // [Button] DogSitting
-        JButton workButton = createActivity("DogSitting 1h 10$", 1, 0, 10, 5);
+        JButton workButton = createActivity("DogSitting 1h 10$", 1, 0, 10, 5, 6, 21);
         buttonPanel.add(workButton);
 
-        // [Button] DogSitting
-        workButton = createActivity("BabySitting 2h 30$", 2, 0, 30, 15);
+        // [Button] BabySitting
+        workButton = createActivity("BabySitting 2h 30$", 2, 0, 30, 15, 6, 23);
         buttonPanel.add(workButton);
 
         centerPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -117,7 +149,7 @@ public class App extends JFrame{
         setVisible(true);
     }
 
-    private JButton createActivity(String name, int hour, int minute, int salary, int xp) {
+    private JButton createActivity(String name, int hour, int minute, int salary, int xp, int startHour, int endHour) {
         JButton workButton = WButton.createButton(
             name, 
             "", 
@@ -133,7 +165,7 @@ public class App extends JFrame{
         workButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                if ( 6 <= game.getCalendar().get(Calendar.HOUR_OF_DAY) && game.getCalendar().get(Calendar.HOUR_OF_DAY) < 21) {
+                if ( startHour <= game.getCalendar().get(Calendar.HOUR_OF_DAY) && game.getCalendar().get(Calendar.HOUR_OF_DAY) < (endHour-hour)) {
                     game.getPlayer().earnMoney(salary);
                     game.getPlayer().gainXp(xp);
                                         
