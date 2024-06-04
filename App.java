@@ -75,28 +75,7 @@ public class App extends JFrame{
         clockLabel = new JLabel("<html>"+game.getDate()+"<br>"+game.getTime()+"</html>", SwingConstants.CENTER);
         clockLabel.setFont(FONT_TEXT);
 
-<<<<<<< HEAD:src/App.java
-
         headPanel.add(titleLabel, BorderLayout.CENTER);
-=======
-        Timer clock = new Timer(2000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                calendar.add(Calendar.MINUTE, 1);
-                updateClockText();
-            }
-        });
-        clock.start();
-
-        Timer clockMoneyGain = new Timer(20000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                player.earnMoney(1);
-                playerInfoLabel.setText(player.getInfo());
-            }
-        });
-        clockMoneyGain.start();
->>>>>>> cf9b57d7b1b2969782d2497dd9e977c405608445:App.java
         headPanel.add(clockLabel, BorderLayout.WEST);
         
         // [Panel] Left
@@ -104,39 +83,8 @@ public class App extends JFrame{
         leftPanel.setLayout(new BorderLayout());
         leftPanel.setBorder(new EmptyBorder(10, 30, 30, 10));
 
-<<<<<<< HEAD:src/App.java
         // [Label]
         playerInfoLabel = new JLabel(game.getPlayer().getInfo(), SwingConstants.CENTER);
-=======
-        // [Button] Settings
-        JButton settingsButton = WButton.createButton(
-            "Settings",
-            "",
-            5,
-            5,
-            5,
-            5,
-            BG_BUTTON,
-            TEXT_COLOR,
-            FONT_TEXT
-            );
-        settingsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-
-            }
-        });
-
-        headPanel.add(settingsButton, BorderLayout.EAST);
-
-        // [Panel] stats
-        JPanel statsPanel = new JPanel();
-        statsPanel.setLayout(new BorderLayout()); 
-
-        player = new Player();
-
-        playerInfoLabel = new JLabel(player.getInfo(), SwingConstants.CENTER);
->>>>>>> cf9b57d7b1b2969782d2497dd9e977c405608445:App.java
         playerInfoLabel.setFont(FONT_TEXT);
 
         leftPanel.add(playerInfoLabel, BorderLayout.CENTER);
