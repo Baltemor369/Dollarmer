@@ -8,8 +8,7 @@ public class Player{
     private int _xp_max;
     private int _level;
     private int _sleepy;
-    private java.util.List<Item> _items = new ArrayList<Item>();
-
+    private Inventory _invent = new Inventory();
     // default constructor
     public Player(){
         this._money = 0;
@@ -52,6 +51,10 @@ public class Player{
         return _sleepy;
     }
 
+    public Inventory getInvent() {
+        return _invent;
+    }
+
     public void gainXp(int amount){
         this._xp += amount;
         if (this._xp>=this._xp_max) {
@@ -67,6 +70,6 @@ public class Player{
     }
 
     public void addItem(Item item){
-        _items.add(item);
+        _invent.addItem(item.getName());
     }
 }
