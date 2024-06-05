@@ -52,6 +52,10 @@ public class Player{
         return _sleepy;
     }
 
+    public java.util.List<Item> getInvent(){
+        return _items;
+    }
+
     public void gainXp(int amount){
         this._xp += amount;
         if (this._xp>=this._xp_max) {

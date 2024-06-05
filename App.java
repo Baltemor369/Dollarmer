@@ -109,7 +109,7 @@ public class App extends JFrame{
             5,
             5, 
             BG_BUTTON, 
-            BG_BUTTON, 
+            TEXT_COLOR, 
             FONT_TEXT
             );
         goldButton.addActionListener(new ActionListener() {
