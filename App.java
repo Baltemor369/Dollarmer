@@ -21,6 +21,7 @@ public class App extends JFrame{
     // [Font]
     public static final Font FONT_TITLE = new Font("Serif", Font.BOLD, 32);
     public static final Font FONT_TEXT = new Font("Serif", Font.BOLD, 24);
+    public static final Font LITTLE_FONT_TEXT = new Font("Serif", Font.PLAIN, 18);
     // [String]
     public static final String APP_NAME = "Money Game";
     
@@ -121,9 +122,15 @@ public class App extends JFrame{
 
         shopPanel.add(goldButton);
 
-        JPanel inventPanel = new JPanel();
-        inventPanel.setLayout(new FlowLayout());
+        JButton inventButton = WButton.createButton("Inventory", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+        inventButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                inventWindow();
+            }
+        });
 
+        centerPanel.add(inventButton, BorderLayout.EAST);
         centerPanel.add(shopPanel, BorderLayout.CENTER);
 
         // [Panel] Button
@@ -145,8 +152,35 @@ public class App extends JFrame{
         panel.add(leftPanel, BorderLayout.WEST);
         panel.add(centerPanel, BorderLayout.CENTER);
         add(panel, BorderLayout.CENTER);
-
+        
         setVisible(true);
+    }
+
+    public void inventWindow(){
+
+        JFrame newWindow = new JFrame("Inventory");
+        newWindow.setSize(500, 400);
+        newWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        JPanel inventPanel = new JPanel();
+        inventPanel.setLayout(new FlowLayout());
+        
+        JButton backButton = WButton.createButton("Exit", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                newWindow.dispose();
+            }
+        });
+
+        panel.add(inventPanel, BorderLayout.CENTER);
+        panel.add(backButton, BorderLayout.SOUTH);
+        newWindow.add(panel);
+
+        newWindow.setVisible(true);
     }
 
     private JButton createActivity(String name, int hour, int minute, int salary, int xp, int startHour, int endHour) {

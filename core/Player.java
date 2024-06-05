@@ -1,15 +1,12 @@
 package core;
 
-import java.util.ArrayList;
-
 public class Player{
     private int _money;
     private int _xp;
     private int _xp_max;
     private int _level;
     private int _sleepy;
-    private java.util.List<Item> _items = new ArrayList<Item>();
-
+    private Inventory _invent = new Inventory();
     // default constructor
     public Player(){
         this._money = 0;
@@ -52,8 +49,8 @@ public class Player{
         return _sleepy;
     }
 
-    public java.util.List<Item> getInvent(){
-        return _items;
+    public Inventory getInvent() {
+        return _invent;
     }
 
     public void gainXp(int amount){
@@ -71,6 +68,6 @@ public class Player{
     }
 
     public void addItem(Item item){
-        _items.add(item);
+        _invent.addItem(item.getName());
     }
 }
