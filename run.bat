@@ -1,5 +1,13 @@
 @echo off
 
-javac -d bin App.java core/*.java widgets/*.java
+SET name=App
+IF "%~1"=="-n" (
+    SET name=%~2
+)
 
-java -cp bin App
+setlocal enabledelayedexpansion
+set CLASSPATH=.;%CLASSPATH%
+for /R %%f in (*.java) do set JAVAFILES=!JAVAFILES! %%f
+javac -d bin !JAVAFILES!
+java -cp bin %name%
+endlocal

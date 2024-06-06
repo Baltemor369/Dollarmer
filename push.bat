@@ -34,4 +34,4 @@ IF "%remote%"=="" GOTO error
 git add *
 git commit -m %message%
 git push -u %remote% %branchName%
-echo 'push succeed'
+echo push succeed

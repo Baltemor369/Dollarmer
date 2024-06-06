@@ -7,12 +7,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class App extends JFrame{
     private Game game;
     private Timer windowClock;
     private JLabel playerInfoLabel, clockLabel;
     private JButton sleepButton;
+    private HashMap<String, JFrame> windows = new HashMap<>();
 
     // Const
     // [Color]
@@ -34,6 +36,7 @@ public class App extends JFrame{
         setLayout(new BorderLayout());
 
         game = new Game();
+        windows.put("invent", null);
 
         windowClock = new Timer(100, new ActionListener() {
             @Override
@@ -204,10 +207,16 @@ public class App extends JFrame{
     }
 
     public void inventWindow(){
+        
+        if (windows.get("invent")!=null){
+            windows.get("invent").toFront();
+            return;
+        }
 
         JFrame newWindow = new JFrame("Inventory");
         newWindow.setSize(500, 400);
         newWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
         
         JLabel label = new JLabel(game.getPlayer().getInvent().getInventoryString(), SwingConstants.CENTER);
         label.setFont(LITTLE_FONT_TEXT);
@@ -233,6 +242,7 @@ public class App extends JFrame{
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
+                windows.replace("invent", null);
                 newWindow.dispose();
             }
         });
@@ -243,6 +253,7 @@ public class App extends JFrame{
         
         windowClock.start();
         newWindow.setVisible(true);
+        windows.replace("invent", newWindow);
     }
 
     private JButton createActivity(String name, int hour, int minute, int salary, int xp, int startHour, int endHour) {
