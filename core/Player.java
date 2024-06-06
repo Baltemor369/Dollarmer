@@ -64,7 +64,14 @@ public class Player{
     }
 
     public void earnMoney(int amount){
-        this._money += amount;
+        if (amount>0) {
+            this._money += amount;
+        }
+    }
+    public void spendMoney(int amount){
+        if (0 < amount && amount <= _money) {
+            this._money -= amount;
+        }
     }
 
     public void addItem(String item){

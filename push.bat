@@ -1,6 +1,7 @@
 @echo off
 SET branchName=main
 SET message=update
+SET remote=origin
 
 
 IF "%~1"=="" (
@@ -9,7 +10,7 @@ IF "%~1"=="" (
     :parse
     IF "%~1"=="" GOTO endparse
     IF "%~1"=="-o" (
-        SET origin=%~2
+        SET remote=%~2
         SHIFT
     )
     IF "%~1"=="-b" (
@@ -29,8 +30,8 @@ echo check your argument -o.
 exit /b
 
 :endparse
-IF "%origin%"=="" GOTO error
+IF "%remote%"=="" GOTO error
 git add *
 git commit -m %message%
-git push -u %origin% %branchName%
+git push -u %remote% %branchName%
 echo 'push succeed'

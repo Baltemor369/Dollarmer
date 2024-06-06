@@ -49,7 +49,7 @@ public class App extends JFrame{
         sleepButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                if (game.getCalendar().get(Calendar.HOUR_OF_DAY) >= 21 && game.getCalendar().get(Calendar.HOUR_OF_DAY) < 6) {
+                if (game.getCalendar().get(Calendar.HOUR_OF_DAY) >= 21 || game.getCalendar().get(Calendar.HOUR_OF_DAY) < 6) {
                     game.sleep();
                 }
             }
@@ -116,7 +116,10 @@ public class App extends JFrame{
         goldButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                game.getPlayer().addItem("Gold Ingot");;
+                if (game.getPlayer().getMoney() >= 150) {
+                    game.getPlayer().addItem("Gold Ingot");
+                    game.getPlayer().spendMoney(150);
+                }
             }
         });
 
@@ -134,7 +137,10 @@ public class App extends JFrame{
         carButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                game.getPlayer().addItem("Car");;
+                if (game.getPlayer().getMoney() >= 2000) {
+                    game.getPlayer().addItem("Car");
+                    game.getPlayer().spendMoney(2000);
+                }
             }
         });
 
@@ -152,7 +158,10 @@ public class App extends JFrame{
         tshirtButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                game.getPlayer().addItem("Tshirt");;
+                if (game.getPlayer().getMoney() >= 25) {
+                    game.getPlayer().addItem("Tshirt");
+                    game.getPlayer().spendMoney(25);
+                }
             }
         });
 
@@ -200,14 +209,24 @@ public class App extends JFrame{
         newWindow.setSize(500, 400);
         newWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
+        JLabel label = new JLabel(game.getPlayer().getInvent().getInventoryString(), SwingConstants.CENTER);
+        label.setFont(LITTLE_FONT_TEXT);
+
+        windowClock = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                // update player invent
+                label.setText(game.getPlayer().getInvent().getInventoryString());
+            }
+        });
+        
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
         JPanel inventPanel = new JPanel();
         inventPanel.setLayout(new FlowLayout());
         
-        JLabel label = new JLabel(game.getPlayer().getInvent().getInventoryString(), SwingConstants.CENTER);
-        label.setFont(LITTLE_FONT_TEXT);
+        
         inventPanel.add(label);
 
         JButton backButton = WButton.createButton("Exit", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
@@ -221,7 +240,8 @@ public class App extends JFrame{
         panel.add(inventPanel, BorderLayout.CENTER);
         panel.add(backButton, BorderLayout.SOUTH);
         newWindow.add(panel);
-
+        
+        windowClock.start();
         newWindow.setVisible(true);
     }
 

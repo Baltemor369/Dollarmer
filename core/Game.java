@@ -38,21 +38,8 @@ public class Game {
     }
 
     public void sleep(){
-        int hour = _calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = _calendar.get(Calendar.MINUTE);
-        
-        int minutesUntil6AM;
-        if (hour < 6 || (hour == 6 && minute == 0)) {
-            minutesUntil6AM = (6 - hour) * 60 - minute;
-        } else {
-            minutesUntil6AM = (24 - hour + 6) * 60 - minute;
-        }
-        
-        _player.earnMoney((int)(minutesUntil6AM/10));
-        hour = _calendar.get(Calendar.HOUR_OF_DAY);
-
-        if (hour >= 6) {
-            _calendar.add(Calendar.DATE, 1); // Avance d'un jour
+        if (_calendar.get(Calendar.HOUR_OF_DAY) >= 21) {
+            _calendar.add(Calendar.DATE, 1);
         }
         
         _calendar.set(Calendar.HOUR_OF_DAY, 6);
