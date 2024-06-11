@@ -8,12 +8,10 @@ import java.text.SimpleDateFormat;
 
 public class Game {
     private Player _player;
-    private Item _gold;
     private Timer _afkMoneyClock, _timeClock;
     private Calendar _calendar = Calendar.getInstance();
 
     public Game(){
-        _gold = new Item("Gold Ingot", 15);
         _player = new Player();
         _calendar.set(2024, 0, 1, 6, 0, 0);
 
@@ -40,21 +38,8 @@ public class Game {
     }
 
     public void sleep(){
-        int hour = _calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = _calendar.get(Calendar.MINUTE);
-        
-        int minutesUntil6AM;
-        if (hour < 6 || (hour == 6 && minute == 0)) {
-            minutesUntil6AM = (6 - hour) * 60 - minute;
-        } else {
-            minutesUntil6AM = (24 - hour + 6) * 60 - minute;
-        }
-        
-        _player.earnMoney((int)(minutesUntil6AM/10));
-        hour = _calendar.get(Calendar.HOUR_OF_DAY);
-
-        if (hour >= 6) {
-            _calendar.add(Calendar.DATE, 1); // Avance d'un jour
+        if (_calendar.get(Calendar.HOUR_OF_DAY) >= 21) {
+            _calendar.add(Calendar.DATE, 1);
         }
         
         _calendar.set(Calendar.HOUR_OF_DAY, 6);
@@ -81,9 +66,5 @@ public class Game {
 
     public Calendar getCalendar(){
         return _calendar;
-    }
-
-    public Item getGold(){
-        return _gold;
     }
 }

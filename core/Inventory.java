@@ -11,8 +11,8 @@ public class Inventory {
     }
 
     // Ajoute un item à l'inventaire
-    public void addItem(String item) {
-        items.put(item, items.getOrDefault(item, 0) + 1);
+    public void addItem(String item, int amount) {
+        items.put(item, items.getOrDefault(item, 0) + amount);
     }
 
     // Retire un item de l'inventaire
