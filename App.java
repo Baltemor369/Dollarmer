@@ -195,6 +195,10 @@ public class App extends JFrame{
         // [Button] BabySitting
         workButton = createActivity("BabySitting 2h 30$", 2, 0, 30, 15, 6, 23);
         buttonPanel.add(workButton);
+        
+        // [Button] Night Guard
+        workButton = createActivity("Security Guard 6h 80$", 6, 0, 80, 30, 22, 6);
+        buttonPanel.add(workButton);
 
         centerPanel.add(buttonPanel, BorderLayout.SOUTH);
 
@@ -274,7 +278,7 @@ public class App extends JFrame{
         workButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                if ( startHour <= game.getCalendar().get(Calendar.HOUR_OF_DAY) && game.getCalendar().get(Calendar.HOUR_OF_DAY) < (endHour-hour)) {
+                if ( startHour <= game.getCalendar().get(Calendar.HOUR_OF_DAY) || game.getCalendar().get(Calendar.HOUR_OF_DAY) < (endHour-hour)) {
                     game.getPlayer().earnMoney(salary);
                     game.getPlayer().gainXp(xp);
                                         
