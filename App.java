@@ -28,6 +28,7 @@ public class App extends JFrame{
 
         game = new Game();
         windows.put("invent", null);
+        windows.put("work", null);
 
         windowClock = new Timer(100, new ActionListener() {
             @Override
@@ -171,13 +172,45 @@ public class App extends JFrame{
             }
         });
 
+        JButton actyButton = WButton.createButton("Works", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+        actyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                workWindow();
+            }
+        });
+
         centerPanel.add(inventButton, BorderLayout.EAST);
+        centerPanel.add(actyButton, BorderLayout.SOUTH);
         centerPanel.add(shopPanel, BorderLayout.CENTER);
+
+
+        // centerPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        panel.add(headPanel, BorderLayout.NORTH);
+        panel.add(leftPanel, BorderLayout.WEST);
+        panel.add(centerPanel, BorderLayout.CENTER);
+        add(panel, BorderLayout.CENTER);
+        
+        setVisible(true);
+    }
+
+    public void workWindow(){
+        if (windows.get("work")!=null){
+            windows.get("work").toFront();
+            return;
+        }
+
+        JFrame newWindow = new JFrame("Works");
+        newWindow.setSize(500, 400);
+        newWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // [Panel] Button
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.setBorder(new EmptyBorder(0, 0, 30, 0));
+
+        newWindow.add(buttonPanel);
 
         // [Button] DogSitting
         Activity activity1 = new Activity("DogSitting 1h 10$", 1, 0, 10, 5, 10, 6, 21);
@@ -233,14 +266,8 @@ public class App extends JFrame{
         });
         buttonPanel.add(workButton);
 
-        centerPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        panel.add(headPanel, BorderLayout.NORTH);
-        panel.add(leftPanel, BorderLayout.WEST);
-        panel.add(centerPanel, BorderLayout.CENTER);
-        add(panel, BorderLayout.CENTER);
-        
-        setVisible(true);
+        newWindow.setVisible(true);
+        windows.replace("work", newWindow);
     }
 
     public void inventWindow(){
@@ -288,8 +315,6 @@ public class App extends JFrame{
         panel.add(backButton, BorderLayout.SOUTH);
         newWindow.add(panel);
 
-        newWindow.setVisible(true);
-        
         windowClock.start();
         newWindow.setVisible(true);
         windows.replace("invent", newWindow);
