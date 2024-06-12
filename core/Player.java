@@ -27,7 +27,7 @@ public class Player{
     }
 
     public String getInfo() {
-        return String.format("<html>Money: %d<br/>Xp: %d/%d<br/>Level: %d</html>", _money, _xp, _xp_max, _level);
+        return String.format("<html>Money: %d<br/>Xp: %d/%d<br/>Level: %d<br/>Sleepy: %d</html>", _money, _xp, _xp_max, _level, _sleepy);
     }
 
     public int getMoney(){
