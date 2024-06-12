@@ -1,4 +1,6 @@
+import core.Activity;
 import core.Game;
+import static core.Const.*;
 import widgets.WButton;
 
 import javax.swing.*;
@@ -15,17 +17,6 @@ public class App extends JFrame{
     private JLabel playerInfoLabel, clockLabel;
     private JButton sleepButton;
     private HashMap<String, JFrame> windows = new HashMap<>();
-
-    // Const
-    // [Color]
-    public static final Color BG_BUTTON = new Color(90,90,90);
-    public static final Color TEXT_COLOR = new Color(240,240,240);
-    // [Font]
-    public static final Font FONT_TITLE = new Font("Serif", Font.BOLD, 32);
-    public static final Font FONT_TEXT = new Font("Serif", Font.BOLD, 24);
-    public static final Font LITTLE_FONT_TEXT = new Font("Serif", Font.PLAIN, 18);
-    // [String]
-    public static final String APP_NAME = "Dollarmer";
     
     public App(){
         setTitle(APP_NAME);
@@ -189,15 +180,57 @@ public class App extends JFrame{
         buttonPanel.setBorder(new EmptyBorder(0, 0, 30, 0));
 
         // [Button] DogSitting
-        JButton workButton = createActivity("DogSitting 1h 10$", 1, 0, 10, 5, 6, 21);
+        Activity activity1 = new Activity("DogSitting 1h 10$", 1, 0, 10, 5, 10, 6, 21);
+        JButton workButton = activity1.createActivityButton(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (activity1.getHourStart() <= game.getCalendar().get(Calendar.HOUR_OF_DAY) || 
+                    game.getCalendar().get(Calendar.HOUR_OF_DAY) < (activity1.getHourEnd() - activity1.getHour())) {
+                    
+                    game.getPlayer().earnMoney(activity1.getSalary());
+                    game.getPlayer().gainXp(activity1.getXp());
+                    
+                    game.getCalendar().add(Calendar.HOUR_OF_DAY, activity1.getHour());
+                    game.getCalendar().add(Calendar.MINUTE, activity1.getMinute());
+                }
+            }
+        });
         buttonPanel.add(workButton);
 
         // [Button] BabySitting
-        workButton = createActivity("BabySitting 2h 30$", 2, 0, 30, 15, 6, 23);
+        Activity activity2 = new Activity("BabySitting 2h 30$", 2, 0, 30, 15, 20, 6, 23);
+        workButton = activity2.createActivityButton(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (activity2.getHourStart() <= game.getCalendar().get(Calendar.HOUR_OF_DAY) || 
+                    game.getCalendar().get(Calendar.HOUR_OF_DAY) < (activity2.getHourEnd() - activity2.getHour())) {
+                    
+                    game.getPlayer().earnMoney(activity2.getSalary());
+                    game.getPlayer().gainXp(activity2.getXp());
+                    
+                    game.getCalendar().add(Calendar.HOUR_OF_DAY, activity2.getHour());
+                    game.getCalendar().add(Calendar.MINUTE, activity2.getMinute());
+                }
+            }
+        });
         buttonPanel.add(workButton);
         
         // [Button] Night Guard
-        workButton = createActivity("Security Guard 6h 80$", 6, 0, 80, 30, 22, 6);
+        Activity activity3 = new Activity("Security Guard 6h 80$", 6, 0, 0, 80, 30, 22, 6);
+        workButton = activity3.createActivityButton(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (activity3.getHourStart() <= game.getCalendar().get(Calendar.HOUR_OF_DAY) || 
+                    game.getCalendar().get(Calendar.HOUR_OF_DAY) < (activity3.getHourEnd() - activity3.getHour())) {
+                    
+                    game.getPlayer().earnMoney(activity3.getSalary());
+                    game.getPlayer().gainXp(activity3.getXp());
+                    
+                    game.getCalendar().add(Calendar.HOUR_OF_DAY, activity3.getHour());
+                    game.getCalendar().add(Calendar.MINUTE, activity3.getMinute());
+                }
+            }
+        });
         buttonPanel.add(workButton);
 
         centerPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -260,35 +293,6 @@ public class App extends JFrame{
         windowClock.start();
         newWindow.setVisible(true);
         windows.replace("invent", newWindow);
-    }
-
-    private JButton createActivity(String name, int hour, int minute, int salary, int xp, int startHour, int endHour) {
-        JButton workButton = WButton.createButton(
-            name, 
-            "", 
-            5, 
-            5, 
-            5, 
-            5, 
-            BG_BUTTON, 
-            TEXT_COLOR, 
-            FONT_TEXT
-            );
-
-        workButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                if ( startHour <= game.getCalendar().get(Calendar.HOUR_OF_DAY) || game.getCalendar().get(Calendar.HOUR_OF_DAY) < (endHour-hour)) {
-                    game.getPlayer().earnMoney(salary);
-                    game.getPlayer().gainXp(xp);
-                                        
-                    game.getCalendar().add(Calendar.HOUR_OF_DAY, hour);
-                    game.getCalendar().add(Calendar.MINUTE, minute);
-                    
-                }
-            }
-        });
-        return workButton;
     }
 
     public static void main(String[] args) throws Exception {
