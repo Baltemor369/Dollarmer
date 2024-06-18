@@ -7,6 +7,7 @@ public class Player{
     private int _level;
     private int _sleepy;
     private Inventory _invent = new Inventory();
+    
     // default constructor
     public Player(){
         this._money = 0;

@@ -4,8 +4,9 @@ a simple and fun game where you can earn and manage money. Earn money by spendin
 
 ## Launcher
 
-1. Clone the project
-2. In "MoneyGame", double-click on "run.bat"
+1. Download the project.
+2. Unzip it.
+2. In "Dollarmer", double-click on "run.bat"
 
 ## Features
 
