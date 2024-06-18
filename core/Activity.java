@@ -23,6 +23,11 @@ public class Activity {
         this._hourEnd = endHour;
     }
 
+    @Override
+    public String toString(){
+        return _name+" xp:"+_xp+" exhaust:"+_exhaustion+" schedules:"+_hourStart+"-"+_hourEnd;
+    }
+
     public String getName() {
         return _name;
     }

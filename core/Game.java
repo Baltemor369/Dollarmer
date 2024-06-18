@@ -40,17 +40,17 @@ public class Game {
 
     public void tictac(){
         _calendar.add(Calendar.MINUTE, 1);
+
+        if (_calendar.get(Calendar.MINUTE)==0) {
+            _player.addExhaustion(1);
+        }
+        if (_player.getSleep()>=100) {
+            this.sleep();
+        }
     }
 
     public void sleep(){
-        if (_calendar.get(Calendar.HOUR_OF_DAY) >= 21) {
-            _calendar.add(Calendar.DATE, 1);
-        }
-        
-        _calendar.set(Calendar.HOUR_OF_DAY, 6);
-        _calendar.set(Calendar.MINUTE, 0);
-        _calendar.set(Calendar.SECOND, 0);
-
+        _calendar.add(Calendar.HOUR, 7);
         _player.sleep();
     }
 
