@@ -1,4 +1,4 @@
-# MoneyGame
+# Dollarmer
 
 a simple and fun game where you can earn and manage money. Earn money by spending or doing some work
 

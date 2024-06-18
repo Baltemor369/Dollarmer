@@ -10,15 +10,15 @@ public class Activity {
     String _name;
     private int _hour, _min, _sec;
     private int _hourStart, _hourEnd;
-    private int _salary, _xp, _tiredness;
+    private int _salary, _xp, _exhaustion;
 
-    public Activity(String name, int hour, int minute, int salary, int xp, int tiredness, int startHour, int endHour) {
+    public Activity(String name, int hour, int minute, int salary, int xp, int exhaustion, int startHour, int endHour) {
         this._name = name;
         this._hour = hour;
         this._min = minute;
         this._salary = salary;
         this._xp = xp;
-        this._tiredness = tiredness;
+        this._exhaustion = exhaustion;
         this._hourStart = startHour;
         this._hourEnd = endHour;
     }
@@ -47,8 +47,14 @@ public class Activity {
     public int getXp() {
         return _xp;
     }
-    public int getTiredness() {
-        return _tiredness;
+    public int getExhaust() {
+        return _exhaustion;
+    }
+    public int getTimeInMin(){
+        return _hour * 60 + _min; 
+    }
+    public int getTimeInSec(){
+        return _hour * 60 * 60 + _min * 60 + _sec; 
     }
     public JButton createActivityButton(ActionListener action) {
         JButton workButton = WButton.createButton(

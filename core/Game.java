@@ -27,7 +27,7 @@ public class Game {
         _timeClock = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                _calendar.add(Calendar.MINUTE, 1);
+                tictac();
                 
             }
         });
@@ -36,6 +36,10 @@ public class Game {
     public void startClocks(){
         _afkMoneyClock.start();
         _timeClock.start();
+    }
+
+    public void tictac(){
+        _calendar.add(Calendar.MINUTE, 1);
     }
 
     public void sleep(){
