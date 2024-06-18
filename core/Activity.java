@@ -10,14 +10,13 @@ public class Activity {
     String _name;
     private int _hour, _min, _sec;
     private int _hourStart, _hourEnd;
-    private int _salary, _xp, _exhaustion;
+    private int _salary, _exhaustion;
 
-    public Activity(String name, int hour, int minute, int salary, int xp, int exhaustion, int startHour, int endHour) {
+    public Activity(String name, int hour, int minute, int salary, int exhaustion, int startHour, int endHour) {
         this._name = name;
         this._hour = hour;
         this._min = minute;
         this._salary = salary;
-        this._xp = xp;
         this._exhaustion = exhaustion;
         this._hourStart = startHour;
         this._hourEnd = endHour;
@@ -25,7 +24,7 @@ public class Activity {
 
     @Override
     public String toString(){
-        return _name+" xp:"+_xp+" exhaust:"+_exhaustion+" schedules:"+_hourStart+"-"+_hourEnd;
+        return _name+" exhaust:"+_exhaustion+" schedules:"+_hourStart+"-"+_hourEnd;
     }
 
     public String getName() {
@@ -48,9 +47,6 @@ public class Activity {
     }
     public int getSalary() {
         return _salary;
-    }
-    public int getXp() {
-        return _xp;
     }
     public int getExhaust() {
         return _exhaustion;

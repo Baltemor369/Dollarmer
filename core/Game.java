@@ -46,6 +46,7 @@ public class Game {
         }
         if (_player.getSleep()>=100) {
             this.sleep();
+            _player.addExhaustion(20);
         }
     }
 

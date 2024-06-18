@@ -141,7 +141,6 @@ public class App extends JFrame{
                 if (activity.getHourStart() <= activity.getHourEnd()) {
                     if (currentHour >= activity.getHourStart() && currentHour-activity.getHour() < activity.getHourEnd()) {
                         game.getPlayer().earnMoney(activity.getSalary());
-                        game.getPlayer().gainXp(activity.getXp());
                         game.getPlayer().addExhaustion(activity.getExhaust());
                         
                         for (int i = 0; i < (activity.getTimeInMin()); i++) {
@@ -151,7 +150,6 @@ public class App extends JFrame{
                 } else {
                     if (currentHour >= activity.getHourStart() || currentHour-activity.getHour() < activity.getHourEnd()) {
                         game.getPlayer().earnMoney(activity.getSalary());
-                        game.getPlayer().gainXp(activity.getXp());
                         game.getPlayer().addExhaustion(activity.getExhaust());
                         
                         for (int i = 0; i < (activity.getTimeInMin()); i++) {
@@ -182,15 +180,15 @@ public class App extends JFrame{
         newWindow.add(buttonPanel);
     
         // [Button] DogSitting
-        Activity activity1 = new Activity("DogSitting 1h 10$", 1, 0, 10, 5, 10, 6, 21);
+        Activity activity1 = new Activity("DogSitting 1h 10$", 1, 0, 5, 10, 6, 21);
         buttonPanel.add(createActivityButton(activity1));
     
         // [Button] BabySitting
-        Activity activity2 = new Activity("BabySitting 2h 30$", 2, 0, 30, 15, 20, 6, 2);
+        Activity activity2 = new Activity("BabySitting 2h 30$", 2, 0, 30, 20, 6, 2);
         buttonPanel.add(createActivityButton(activity2));
         
         // [Button] Night Guard
-        Activity activity3 = new Activity("Security Guard 6h 80$", 6, 0, 0, 80, 30, 0, 6);
+        Activity activity3 = new Activity("Security Guard 6h 80$", 6, 0, 0, 30, 0, 6);
         buttonPanel.add(createActivityButton(activity3));
     
         newWindow.setVisible(true);
