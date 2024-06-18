@@ -11,5 +11,5 @@ public class Item {
 
     public String getName(){return _name;}
     public int getPrice(){return _price;}
-    public void valueVariation(int amount){_price += amount;}
+    public void inflation(int amount){_price += amount;}
 }
