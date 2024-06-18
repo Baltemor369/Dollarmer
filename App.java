@@ -189,11 +189,11 @@ public class App extends JFrame{
         buttonPanel.setBorder(new EmptyBorder(0, 0, 30, 0));
 
         // [Button] DogSitting
-        JButton workButton = createActivity("DogSitting 1h 10$", 1, 0, 10, 5, 6, 21);
+        JButton workButton = createActivity("DogSitting 1h 10$", 1, 0, 10, 5, 5, 6, 21);
         buttonPanel.add(workButton);
 
         // [Button] BabySitting
-        workButton = createActivity("BabySitting 2h 30$", 2, 0, 30, 15, 6, 23);
+        workButton = createActivity("BabySitting 2h 30$", 2, 0, 30, 15, 30, 6, 23);
         buttonPanel.add(workButton);
 
         centerPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -258,7 +258,7 @@ public class App extends JFrame{
         windows.replace("invent", newWindow);
     }
 
-    private JButton createActivity(String name, int hour, int minute, int salary, int xp, int startHour, int endHour) {
+    private JButton createActivity(String name, int hour, int minute, int salary, int xp, int exhaustion, int startHour, int endHour) {
         JButton workButton = WButton.createButton(
             name, 
             "", 
@@ -274,13 +274,13 @@ public class App extends JFrame{
         workButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                if ( startHour <= game.getCalendar().get(Calendar.HOUR_OF_DAY) && game.getCalendar().get(Calendar.HOUR_OF_DAY) < (endHour-hour)) {
+                if ( game.getPlayer().getSleep()+exhaustion<100 && startHour <= game.getCalendar().get(Calendar.HOUR_OF_DAY) && game.getCalendar().get(Calendar.HOUR_OF_DAY) < (endHour-hour)) {
                     game.getPlayer().earnMoney(salary);
                     game.getPlayer().gainXp(xp);
+                    game.getPlayer().addExhaustion(exhaustion);
                                         
                     game.getCalendar().add(Calendar.HOUR_OF_DAY, hour);
                     game.getCalendar().add(Calendar.MINUTE, minute);
-                    
                 }
             }
         });

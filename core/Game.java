@@ -28,6 +28,7 @@ public class Game {
             @Override
             public void actionPerformed(ActionEvent e){
                 _calendar.add(Calendar.MINUTE, 1);
+                
             }
         });
     }
@@ -45,6 +46,8 @@ public class Game {
         _calendar.set(Calendar.HOUR_OF_DAY, 6);
         _calendar.set(Calendar.MINUTE, 0);
         _calendar.set(Calendar.SECOND, 0);
+
+        _player.sleep();
     }
 
     public String getDate(){

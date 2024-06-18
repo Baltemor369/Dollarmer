@@ -26,7 +26,7 @@ public class Player{
     }
 
     public String getInfo() {
-        return String.format("<html>Money: %d<br/>Xp: %d/%d<br/>Level: %d</html>", _money, _xp, _xp_max, _level);
+        return String.format("<html>Money: %d<br/>Xp: %d/%d<br/>Level: %d<br/>Exhaust: %d/100</html>", _money, _xp, _xp_max, _level, _sleepy);
     }
 
     public int getMoney(){
@@ -79,5 +79,16 @@ public class Player{
     }
     public void addItem(String item, int amount){
         _invent.addItem(item, amount);
+    }
+
+    public void addExhaustion (int amount){
+        _sleepy += amount;
+        if (_sleepy >100) {
+            _sleepy = 100;
+        }
+    }
+
+    public void sleep(){
+        _sleepy = 0;
     }
 }
