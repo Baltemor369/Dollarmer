@@ -62,7 +62,7 @@ public class App extends JFrame{
 
         // [Panel] Right
         JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new BorderLayout());
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.setBorder(new EmptyBorder(10, 30, 30, 10));
 
         // [Panel] Center
