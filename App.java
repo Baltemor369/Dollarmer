@@ -1,5 +1,7 @@
 import core.Activity;
 import core.Game;
+// import core.Item;
+
 import static core.Const.*;
 import widgets.WButton;
 
@@ -20,15 +22,16 @@ public class App extends JFrame{
     
     public App(){
         setTitle(APP_NAME);
-        setSize(400, 300);
+        setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        // setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
         game = new Game();
         windows.put("invent", null);
         windows.put("work", null);
+        windows.put("shop", null);
 
         windowClock = new Timer(100, new ActionListener() {
             @Override
@@ -91,6 +94,12 @@ public class App extends JFrame{
         playerInfoLabel = new JLabel(game.getPlayer().getInfo(), SwingConstants.CENTER);
         playerInfoLabel.setFont(FONT_TEXT);
 
+
+        leftPanel.add(playerInfoLabel, BorderLayout.CENTER);
+        
+        
+        // Right Panel// 
+        // [Button] sleep
         sleepButton = WButton.createButton("Sleep", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
         sleepButton.addActionListener(new ActionListener() {
             @Override
@@ -101,10 +110,6 @@ public class App extends JFrame{
             }
         });
 
-        leftPanel.add(playerInfoLabel, BorderLayout.CENTER);
-        leftPanel.add(sleepButton, BorderLayout.SOUTH);
-        
-        // Right Panel// 
         // [Button] inventory
         JButton inventButton = WButton.createButton("Inventory", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
         inventButton.addActionListener(new ActionListener() {
@@ -122,9 +127,20 @@ public class App extends JFrame{
                 workWindow();
             }
         });
+        
+        // [Button] shop
+        JButton shopButton = WButton.createButton("Shop", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+        shopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                shopWindow();
+            }
+        });
 
-        rightPanel.add(inventButton, BorderLayout.NORTH);
-        rightPanel.add(actyButton, BorderLayout.SOUTH);
+        rightPanel.add(inventButton);
+        rightPanel.add(sleepButton);
+        rightPanel.add(actyButton);
+        rightPanel.add(shopButton);
 
         // Center Panel //
         
@@ -180,15 +196,15 @@ public class App extends JFrame{
         newWindow.add(buttonPanel);
     
         // [Button] DogSitting
-        Activity activity1 = new Activity("DogSitting 1h 10$", 1, 0, 5, 10, 6, 21);
+        Activity activity1 = new Activity("DogSitting 1h 10$", 1, 0, 5, 9, 6, 21);
         buttonPanel.add(createActivityButton(activity1));
     
         // [Button] BabySitting
-        Activity activity2 = new Activity("BabySitting 2h 30$", 2, 0, 30, 20, 6, 2);
+        Activity activity2 = new Activity("BabySitting 2h 30$", 2, 0, 30, 14, 6, 2);
         buttonPanel.add(createActivityButton(activity2));
         
         // [Button] Night Guard
-        Activity activity3 = new Activity("Security Guard 6h 80$", 6, 0, 0, 30, 0, 6);
+        Activity activity3 = new Activity("Security Guard 6h 80$", 6, 0, 0, 74, 0, 6);
         buttonPanel.add(createActivityButton(activity3));
     
         newWindow.setVisible(true);
@@ -244,6 +260,38 @@ public class App extends JFrame{
         windowClock.start();
         newWindow.setVisible(true);
         windows.replace("invent", newWindow);
+    }
+
+    public void shopWindow(){
+        if (windows.get("shop")!=null){
+            windows.get("shop").toFront();
+            return;
+        }
+
+        JFrame newWindow = new JFrame("Shop");
+        newWindow.setSize(500, 400);
+        newWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        newWindow.setLocationRelativeTo(null);
+
+        JButton SmallAppartButton = WButton.createButton("Small Appart", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+        SmallAppartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                game.getPlayer().addItem("Small Appart");
+            }
+        });
+
+        JButton backButton = WButton.createButton("Exit", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                windows.replace("invent", null);
+                newWindow.dispose();
+            }
+        });
+
+        newWindow.setVisible(true);
+        windows.replace("shop", newWindow);
     }
 
     public static void main(String[] args) throws Exception {
