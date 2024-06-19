@@ -59,7 +59,7 @@ public class App extends JFrame{
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BorderLayout());
         leftPanel.setBorder(new EmptyBorder(10, 30, 30, 10));
-
+        
         // [Panel] Right
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
@@ -95,7 +95,7 @@ public class App extends JFrame{
         sleepButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                if (game.getCalendar().get(Calendar.HOUR_OF_DAY) >= 21 || game.getCalendar().get(Calendar.HOUR_OF_DAY) < 6) {
+                if (game.getPlayer().getSleep() >= 70) {
                     game.sleep();
                 }
             }
@@ -137,15 +137,24 @@ public class App extends JFrame{
         return activity.createActivityButton(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (activity.getHourStart() <= game.getCalendar().get(Calendar.HOUR_OF_DAY) || 
-                    game.getCalendar().get(Calendar.HOUR_OF_DAY) < (activity.getHourEnd() - activity.getHour())) {
-                    
-                    game.getPlayer().earnMoney(activity.getSalary());
-                    game.getPlayer().gainXp(activity.getXp());
-                    game.getPlayer().addExhaustion(activity.getExhaust());
-                    
-                    for (int i = 0; i < (activity.getTimeInMin()); i++) {
-                        game.tictac();
+                int currentHour = game.getCalendar().get(Calendar.HOUR_OF_DAY);
+                if (activity.getHourStart() <= activity.getHourEnd()) {
+                    if (currentHour >= activity.getHourStart() && currentHour-activity.getHour() < activity.getHourEnd()) {
+                        game.getPlayer().earnMoney(activity.getSalary());
+                        game.getPlayer().addExhaustion(activity.getExhaust());
+                        
+                        for (int i = 0; i < (activity.getTimeInMin()); i++) {
+                            game.tictac();
+                        }
+                    }
+                } else {
+                    if (currentHour >= activity.getHourStart() || currentHour-activity.getHour() < activity.getHourEnd()) {
+                        game.getPlayer().earnMoney(activity.getSalary());
+                        game.getPlayer().addExhaustion(activity.getExhaust());
+                        
+                        for (int i = 0; i < (activity.getTimeInMin()); i++) {
+                            game.tictac();
+                        }
                     }
                 }
             }
@@ -161,6 +170,7 @@ public class App extends JFrame{
         JFrame newWindow = new JFrame("Works");
         newWindow.setSize(500, 400);
         newWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        newWindow.setLocationRelativeTo(null);
     
         // [Panel] Button
         JPanel buttonPanel = new JPanel();
@@ -170,15 +180,15 @@ public class App extends JFrame{
         newWindow.add(buttonPanel);
     
         // [Button] DogSitting
-        Activity activity1 = new Activity("DogSitting 1h 10$", 1, 0, 10, 5, 10, 6, 21);
+        Activity activity1 = new Activity("DogSitting 1h 10$", 1, 0, 5, 10, 6, 21);
         buttonPanel.add(createActivityButton(activity1));
     
         // [Button] BabySitting
-        Activity activity2 = new Activity("BabySitting 2h 30$", 2, 0, 30, 15, 20, 6, 23);
+        Activity activity2 = new Activity("BabySitting 2h 30$", 2, 0, 30, 20, 6, 2);
         buttonPanel.add(createActivityButton(activity2));
         
         // [Button] Night Guard
-        Activity activity3 = new Activity("Security Guard 6h 80$", 6, 0, 0, 80, 30, 22, 6);
+        Activity activity3 = new Activity("Security Guard 6h 80$", 6, 0, 0, 30, 0, 6);
         buttonPanel.add(createActivityButton(activity3));
     
         newWindow.setVisible(true);
@@ -195,6 +205,7 @@ public class App extends JFrame{
         JFrame newWindow = new JFrame("Inventory");
         newWindow.setSize(500, 400);
         newWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        newWindow.setLocationRelativeTo(null);
         
         
         JLabel label = new JLabel(game.getPlayer().getInvent().getInventoryString(), SwingConstants.CENTER);
