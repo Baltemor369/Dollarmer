@@ -22,9 +22,8 @@ public class App extends JFrame{
     
     public App(){
         setTitle(APP_NAME);
-        setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
@@ -53,58 +52,39 @@ public class App extends JFrame{
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
-        // [Panel] Header
-        JPanel headPanel = new JPanel();
-        headPanel.setLayout(new BorderLayout());
-        headPanel.setBorder(new EmptyBorder(30, 30, 0, 0));
-
         // [Panel] Left
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BorderLayout());
         leftPanel.setBorder(new EmptyBorder(10, 30, 30, 10));
-        
-        // [Panel] Right
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-        rightPanel.setBorder(new EmptyBorder(10, 30, 30, 10));
 
         // [Panel] Center
         JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new BorderLayout());
+        centerPanel.setLayout(new FlowLayout());
+        centerPanel.setBorder(new EmptyBorder(30,0,0,0));
 
-        panel.add(headPanel, BorderLayout.NORTH);
         panel.add(leftPanel, BorderLayout.WEST);
-        panel.add(rightPanel, BorderLayout.EAST);
         panel.add(centerPanel, BorderLayout.CENTER);
-
-        // Header Panel //
-        // [Label]
-        JLabel titleLabel= new JLabel(APP_NAME, SwingConstants.CENTER);
-        titleLabel.setFont(FONT_TITLE);
         
+        // LeftPanel
         // [Label]
         clockLabel = new JLabel("<html>"+game.getDate()+"<br>"+game.getTime()+"</html>", SwingConstants.CENTER);
         clockLabel.setFont(FONT_TEXT);
-
-        headPanel.add(titleLabel, BorderLayout.CENTER);
-        headPanel.add(clockLabel, BorderLayout.WEST);
         
-        // LeftPanel
         // [Label] stats
         playerInfoLabel = new JLabel(game.getPlayer().getInfo(), SwingConstants.CENTER);
         playerInfoLabel.setFont(FONT_TEXT);
 
-
+        leftPanel.add(clockLabel, BorderLayout.NORTH);
         leftPanel.add(playerInfoLabel, BorderLayout.CENTER);
-        
-        
-        // Right Panel// 
+
+
+        // Center Panel //
         // [Button] sleep
         sleepButton = WButton.createButton("Sleep", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
         sleepButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                if (game.getPlayer().getSleep() >= 70) {
+                if (game.getPlayer().getExhaust() >= 70) {
                     game.sleep();
                 }
             }
@@ -136,13 +116,10 @@ public class App extends JFrame{
                 shopWindow();
             }
         });
-
-        rightPanel.add(inventButton);
-        rightPanel.add(sleepButton);
-        rightPanel.add(actyButton);
-        rightPanel.add(shopButton);
-
-        // Center Panel //
+        centerPanel.add(inventButton);
+        centerPanel.add(sleepButton);
+        centerPanel.add(actyButton);
+        centerPanel.add(shopButton);
         
         add(panel, BorderLayout.CENTER);
         
@@ -196,15 +173,15 @@ public class App extends JFrame{
         newWindow.add(buttonPanel);
     
         // [Button] DogSitting
-        Activity activity1 = new Activity("DogSitting 1h 10$", 1, 0, 5, 9, 6, 21);
+        Activity activity1 = new Activity("DogSitting 1h 10$", 1, 0, 5, 9, 6, 21, 1, 1, 1, 1);
         buttonPanel.add(createActivityButton(activity1));
     
         // [Button] BabySitting
-        Activity activity2 = new Activity("BabySitting 2h 30$", 2, 0, 30, 14, 6, 2);
+        Activity activity2 = new Activity("BabySitting 2h 30$", 2, 0, 30, 14, 6, 2, 1, 1, 1, 1);
         buttonPanel.add(createActivityButton(activity2));
         
         // [Button] Night Guard
-        Activity activity3 = new Activity("Security Guard 6h 80$", 6, 0, 0, 74, 0, 6);
+        Activity activity3 = new Activity("Security Guard 6h 80$", 6, 0, 0, 74, 0, 6, 1, 1, 1, 1);
         buttonPanel.add(createActivityButton(activity3));
     
         newWindow.setVisible(true);
@@ -224,14 +201,14 @@ public class App extends JFrame{
         newWindow.setLocationRelativeTo(null);
         
         
-        JLabel label = new JLabel(game.getPlayer().getInvent().getInventoryString(), SwingConstants.CENTER);
+        JLabel label = new JLabel(game.getPlayer().getInventString(), SwingConstants.CENTER);
         label.setFont(LITTLE_FONT_TEXT);
 
         windowClock = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
                 // update player invent
-                label.setText(game.getPlayer().getInvent().getInventoryString());
+                label.setText(game.getPlayer().getInventString());
             }
         });
         
