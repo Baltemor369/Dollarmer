@@ -65,7 +65,7 @@ public class Player{
             _exhaust = 100;
         }
     }
-    public void exhaust(){
+    public void sleep(){
         _exhaust = 0;
     }
 
