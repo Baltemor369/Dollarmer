@@ -44,7 +44,7 @@ public class Game {
         if (_calendar.get(Calendar.MINUTE)==0) {
             _player.addExhaustion(1);
         }
-        if (_player.getSleep()>=100) {
+        if (_player.getExhaust()>=100) {
             this.sleep();
             _player.addExhaustion(20);
         }
