@@ -2,37 +2,47 @@ package core;
 
 public class Player{
     private int _money;
-    private int _sleepy;
+    // health stats
+    private int _exhaust, _hungry, _happiness, _mentalHealth;
+    // skills stats
+    private int _technical, _artistic, _communication, _science;
     private Inventory _invent = new Inventory();
     
     // default constructor
     public Player(){
         this._money = 0;
-        this._sleepy = 0; // %
+        this._exhaust = 0; // %
+        this._hungry = 0; // %
+        this._happiness = 0; // %
+        this._mentalHealth = 100; // %
+        this._technical = 1;
+        this._artistic = 1;
+        this._communication = 1;
+        this._science = 1;
     }
 
     // constructor
-    public Player(int m, int l, int xp, int xpMax, int sleepy){
+    public Player(int m, int l, int xp, int xpMax, int exhaust){
         this._money = m;
-        this._sleepy = sleepy;
+        this._exhaust = exhaust;
     }
 
     public String getInfo() {
-        return String.format("<html>Money: %d<br/>Exhaust: %d%% </html>", _money, _sleepy);
+        return String.format("<html>Money: %d<br/>Exhaust: %d%% </html>", _money, _exhaust);
     }
 
-    public int getMoney(){
-        return _money;
-    }
-    
-    public int getSleep(){
-        return _sleepy;
-    }
+    public int getMoney(){return _money;}
+    public int getExhaust(){return _exhaust;}
+    public int getHungry() {return _hungry;}
+    public int getHappiness() {return _happiness;}
+    public int getMentalHealth() {return _mentalHealth;}
+    public int getTechnical() {return _technical;}
+    public int getArtistic() {return _artistic;}
+    public int getCommunication() {return _communication;}
+    public int getScience() {return _science;}
+    public String getInventString() {return _invent.getInventoryString();}
 
-    public Inventory getInvent() {
-        return _invent;
-    }
-
+    // money management
     public void earnMoney(int amount){
         if (amount>0) {
             this._money += amount;
@@ -44,21 +54,32 @@ public class Player{
         }
     }
 
-    public void addItem(String item){
-        _invent.addItem(item, 1);
-    }
-    public void addItem(String item, int amount){
-        _invent.addItem(item, amount);
-    }
+    // inventory management
+    public void addItem(String item){_invent.addItem(item, 1);}
+    public void addItem(String item, int amount){_invent.addItem(item, amount);}
 
+    // exhaust management
     public void addExhaustion (int amount){
-        _sleepy += amount;
-        if (_sleepy >100) {
-            _sleepy = 100;
+        _exhaust += amount;
+        if (_exhaust >100) {
+            _exhaust = 100;
         }
     }
+    public void exhaust(){
+        _exhaust = 0;
+    }
 
-    public void sleep(){
-        _sleepy = 0;
+    // hungry management
+    public void addHungry(int amount){
+        _hungry += amount;
+        if (_hungry>100) {
+            _hungry = 100;
+        }
+    }
+    public void satiety(int amount){
+        _hungry -= amount;
+        if (_hungry<0) {
+            _hungry = 0;
+        }
     }
 }
