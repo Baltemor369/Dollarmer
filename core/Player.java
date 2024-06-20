@@ -82,4 +82,53 @@ public class Player{
             _hungry = 0;
         }
     }
+
+    // mentalHealth management
+    public void gainMentalHealth(int amount){
+        _mentalHealth += amount;
+        if (_mentalHealth>100) {
+            _mentalHealth = 100;
+        }
+    }
+    public void dicreaseMentalHealth(int amount){
+        _mentalHealth -= amount;
+        if (_mentalHealth<0) {
+            _mentalHealth = 0;
+        }
+    }
+
+    // hapiness management
+    public void gainHapiness(int amount){
+        _happiness += amount;
+        if (_happiness>100) {
+            _happiness=100;
+        }
+    }
+    public void looseHapiness(int amount){
+        _happiness -= amount;
+        if (_happiness<0) {
+            _happiness=0;
+        }
+    }
+
+    // skills management
+    public void gainSkill(String skill, int points){
+        switch (skill) {
+            case Const.TECHNICAL:
+                _technical += points;
+                break;
+            case Const.ARTISTIC:
+                _artistic += points;
+                break;
+            case Const.COMMUNICATION:
+                _communication += points;
+                break;
+            case Const.SCIENCE:
+                _science += points;
+                break;
+        
+            default:
+                break;
+        }
+    }
 }

@@ -173,15 +173,15 @@ public class App extends JFrame{
         newWindow.add(buttonPanel);
     
         // [Button] DogSitting
-        Activity activity1 = new Activity("DogSitting 1h 10$", 1, 0, 5, 9, 6, 21, 1, 1, 1, 1);
+        Activity activity1 = new Activity("DogSitting 1h 10$", 1, 0, 5, 9, 6, 21);
         buttonPanel.add(createActivityButton(activity1));
     
         // [Button] BabySitting
-        Activity activity2 = new Activity("BabySitting 2h 30$", 2, 0, 30, 14, 6, 2, 1, 1, 1, 1);
+        Activity activity2 = new Activity("BabySitting 2h 30$", 2, 0, 30, 14, 6, 2);
         buttonPanel.add(createActivityButton(activity2));
         
         // [Button] Night Guard
-        Activity activity3 = new Activity("Security Guard 6h 80$", 6, 0, 0, 74, 0, 6, 1, 1, 1, 1);
+        Activity activity3 = new Activity("Security Guard 6h 80$", 6, 0, 0, 74, 0, 6);
         buttonPanel.add(createActivityButton(activity3));
     
         newWindow.setVisible(true);

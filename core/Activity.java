@@ -3,6 +3,9 @@ package core;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import widgets.WButton;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static core.Const.*;
 
@@ -15,9 +18,10 @@ public class Activity {
     // 
     private int _salary, _exhaustion;
     // skills requirements
-    private int _technical, _artistic, _communication, _science;
+    private Map<String, Integer> _skillsRequirements = new HashMap<>();
+    private Map<String, Integer> _skillsBonus = new HashMap<>();
 
-    public Activity(String name, int hour, int minute, int salary, int exhaustion, int startHour, int endHour,int technical,int artistic,int communication,int science) {
+    public Activity(String name, int hour, int minute, int salary, int exhaustion, int startHour, int endHour) {
         this._name = name;
         this._hour = hour;
         this._min = minute;
@@ -25,10 +29,39 @@ public class Activity {
         this._exhaustion = exhaustion;
         this._hourStart = startHour;
         this._hourEnd = endHour;
-        this._technical = technical;
-        this._artistic = artistic;
-        this._communication = communication;
-        this._science = science;
+
+        _skillsRequirements.put("technical", 1);
+        _skillsRequirements.put("artistic", 1);
+        _skillsRequirements.put("communication", 1);
+        _skillsRequirements.put("science", 1);
+
+        _skillsBonus.put("technical", 0);
+        _skillsBonus.put("artistic", 0);
+        _skillsBonus.put("communication", 0);
+        _skillsBonus.put("science", 0);
+    }
+    public Activity(String name, int hour, int minute, int salary, int exhaustion, int startHour, int endHour, List<Integer> requirements, List<Integer> bonuses) {
+        this._name = name;
+        this._hour = hour;
+        this._min = minute;
+        this._salary = salary;
+        this._exhaustion = exhaustion;
+        this._hourStart = startHour;
+        this._hourEnd = endHour;
+
+        if (requirements.size() ==_skillsRequirements.size()) {    
+            _skillsRequirements.put(Const.TECHNICAL, requirements.get(0));
+            _skillsRequirements.put(Const.ARTISTIC, requirements.get(1));
+            _skillsRequirements.put(Const.COMMUNICATION, requirements.get(2));
+            _skillsRequirements.put(Const.SCIENCE, requirements.get(3));
+        }
+
+        if (bonuses.size() ==_skillsBonus.size()) {
+            _skillsBonus.put(Const.TECHNICAL, bonuses.get(0));
+            _skillsBonus.put(Const.ARTISTIC, bonuses.get(1));
+            _skillsBonus.put(Const.COMMUNICATION, bonuses.get(2));
+            _skillsBonus.put(Const.SCIENCE, bonuses.get(3));
+        }
     }
 
     @Override
@@ -49,10 +82,8 @@ public class Activity {
     public int getExhaust() { return _exhaustion; }
 
     // getter skils
-    public int getTechnical() {return _technical;}
-    public int getArtistic() {return _artistic;}
-    public int getCommunication() {return _communication;}
-    public int getScience() {return _science;}
+    public int getSkillRequirement(String skill) {return _skillsRequirements.get(skill);}
+    public int getSkillBonus(String skill) {return _skillsBonus.get(skill);}
 
     public JButton createActivityButton(ActionListener action) {
         JButton workButton = WButton.createButton(

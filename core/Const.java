@@ -15,4 +15,8 @@ public class Const {
     
     // [String]
     public static final String APP_NAME = "Dollarmer";
+    public static final String TECHNICAL = "technical";
+    public static final String ARTISTIC = "artistic";
+    public static final String COMMUNICATION = "communication";
+    public static final String SCIENCE = "science";
 }
