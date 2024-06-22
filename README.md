@@ -5,7 +5,6 @@ Achieve your goals to be as happy as possible. Meeting people, going out, workin
 ## Installation
 
 1. Download the project.
-2. Unzip it.
 2. In "Dollarmer", double-click on "run.bat"
 
 ## Features
@@ -19,22 +18,19 @@ Skills and Education:
 - Improve their skills with training, schools, books, forums…
 - A job requires certain skills to be executed, the more it demands, the higher the salary.
 
-
 Health and Well-being:
 
 - Hunger, mental health and happiness, fatigue:
-    - Players exhaust themselves with their activities and work,
-    - Players must sleep regularly,
-    - Players must eat regularly,
-    - To maintain their mental health, players must do activities, meet people.
+  - Players exhaust themselves with their activities and work,
+  - Players must sleep regularly,
+  - Players must eat regularly,
+  - To maintain their mental health, players must do activities, meet people.
 - Mental disorders and other obstacles :
-    - Curable by seeing the appropriate professional, a session is presented as a mini-game where the success rate will correspond to the effectiveness of the session. The more you succeed, the less need for a session and vice versa.
-
+  - Curable by seeing the appropriate professional, a session is presented as a mini-game where the success rate will correspond to the effectiveness of the session. The more you succeed, the less need for a session and vice versa.
 
 Social Relationships:
 
 - Meetings, can become friends, lovers or enemies.
-
 
 Real Estate and Investments:
 
@@ -44,11 +40,10 @@ Real Estate and Investments:
 - Agriculture Market: Players can invest in farms and earn money by selling agricultural products.
 - Health Market: Players can invest in hospitals, clinics or pharmaceutical companies.
 
-
 Random Events:
 
 - Meeting people
-- Mail (email or postal)
+- Random message (email or postal)
 - Accidents
 - Job or investment opportunity
 
