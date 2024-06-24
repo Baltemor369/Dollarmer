@@ -1,6 +1,9 @@
 package core;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,18 +11,31 @@ import java.text.SimpleDateFormat;
 
 public class Game {
     private Player _player;
-    private Timer _afkMoneyClock, _timeClock;
+    private Timer _exhaustClock, _timeClock;
     private Calendar _calendar = Calendar.getInstance();
+    private Map<String, Shop> _shoppingMall;
 
     public Game(){
         _player = new Player();
-        _calendar.set(2024, 0, 1, 6, 0, 0);
+        _calendar.set(2077, 0, 1, 6, 0, 0);
+        
+        _shoppingMall = new HashMap<>();
 
-        // every 20s player earn 1$
-        _afkMoneyClock = new Timer(20000, new ActionListener(){
+        _shoppingMall.put("Restaurant", new Shop("Restaurant"));
+        Shop shop = _shoppingMall.get("Restaurant");
+        shop.addITem(new Food("Bread", 2, 2));
+        shop.addITem(new Food("Fruit", 3, 7));
+        shop.addITem(new Food("Fish", 6, 11));
+        shop.addITem(new Food("Rice", 3, 15));
+        shop.addITem(new Food("Pizza", 11, 19));
+        shop.addITem(new Food("Bolognese", 15, 30));
+
+        // every minues : player stats update
+        _exhaustClock = new Timer(60000, new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                _player.earnMoney(1);
+                _player.addExhaustion(1);
+                _player.addHungry(1);
             }
         });
         
@@ -34,7 +50,7 @@ public class Game {
     }
 
     public void startClocks(){
-        _afkMoneyClock.start();
+        _exhaustClock.start();
         _timeClock.start();
     }
 
@@ -68,11 +84,7 @@ public class Game {
         return timeString;
     }
 
-    public Player getPlayer(){
-        return _player;
-    }
-
-    public Calendar getCalendar(){
-        return _calendar;
-    }
+    public Player getPlayer(){return _player;}
+    public Calendar getCalendar(){return _calendar;}
+    public Shop getShop(String name){return _shoppingMall.get(name);}
 }

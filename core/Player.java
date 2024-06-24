@@ -28,7 +28,7 @@ public class Player{
     }
 
     public String getInfo() {
-        return String.format("<html>Money: %d<br/>Exhaust: %d%% </html>", _money, _exhaust);
+        return String.format("<html>Stats : <br>Money: %d <br/>Hapiness: %d%% <br/>Hungry: %d%% <br/>Mental health: %d%% <br/>Exhaust: %d%% <br><br>Skills : <br>Technical : %d <br> Artistic : %d <br> Communication : %d <br> Science : %d </html>", _money, _happiness, _hungry, _mentalHealth, _exhaust, _technical, _artistic, _communication, _science);
     }
 
     public int getMoney(){return _money;}
@@ -55,8 +55,8 @@ public class Player{
     }
 
     // inventory management
-    public void addItem(String item){_invent.addItem(item, 1);}
-    public void addItem(String item, int amount){_invent.addItem(item, amount);}
+    public void addItem(Item item){_invent.addItem(item, 1);}
+    public void addItem(Item item, int amount){_invent.addItem(item, amount);}
 
     // exhaust management
     public void addExhaustion (int amount){

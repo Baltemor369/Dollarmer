@@ -16,17 +16,18 @@ public class Activity {
     // access job time
     private int _hourStart, _hourEnd;
     // 
-    private int _salary, _exhaustion;
+    private int _salary, _exhaustion, _hungry;
     // skills requirements
     private Map<String, Integer> _skillsRequirements = new HashMap<>();
     private Map<String, Integer> _skillsBonus = new HashMap<>();
 
-    public Activity(String name, int hour, int minute, int salary, int exhaustion, int startHour, int endHour) {
+    public Activity(String name, int hour, int minute, int salary, int exhaustion, int hungry, int startHour, int endHour) {
         this._name = name;
         this._hour = hour;
         this._min = minute;
         this._salary = salary;
         this._exhaustion = exhaustion;
+        this._hungry = hungry;
         this._hourStart = startHour;
         this._hourEnd = endHour;
 
@@ -80,6 +81,7 @@ public class Activity {
     // 
     public int getSalary() { return _salary; }
     public int getExhaust() { return _exhaustion; }
+    public int getHungry() { return _hungry; }
 
     // getter skils
     public int getSkillRequirement(String skill) {return _skillsRequirements.get(skill);}
