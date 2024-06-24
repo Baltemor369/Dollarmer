@@ -17,7 +17,6 @@ public class App extends JFrame{
     private Game game;
     private Timer windowClock;
     private JLabel playerInfoLabel, clockLabel;
-    private JButton sleepButton;
     private HashMap<String, JFrame> windows = new HashMap<>();
     
     public App(){
@@ -77,10 +76,9 @@ public class App extends JFrame{
         leftPanel.add(clockLabel, BorderLayout.NORTH);
         leftPanel.add(playerInfoLabel, BorderLayout.CENTER);
 
-
         // Center Panel //
         // [Button] sleep
-        sleepButton = WButton.createButton("Sleep", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+        JButton sleepButton = WButton.createButton("Sleep", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
         sleepButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
