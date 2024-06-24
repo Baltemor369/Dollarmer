@@ -103,6 +103,5 @@ public class Activity {
         workButton.addActionListener(action);
 
         return workButton;
-    }
-    
+    }   
 }

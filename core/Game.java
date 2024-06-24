@@ -25,9 +25,7 @@ public class Game {
         Shop shop = _shoppingMall.get("Restaurant");
         shop.addITem(new Food("Bread", 2, 2));
         shop.addITem(new Food("Fruit", 3, 7));
-        shop.addITem(new Food("Fish", 6, 11));
-        shop.addITem(new Food("Rice", 3, 15));
-        shop.addITem(new Food("Pizza", 11, 19));
+        shop.addITem(new Food("Pizza", 12, 19));
         shop.addITem(new Food("Bolognese", 15, 30));
 
         // every minues : player stats update
