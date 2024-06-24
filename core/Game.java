@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.Timer;
+
+import static core.Const.RESTAURANT;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -21,8 +24,8 @@ public class Game {
         
         _shoppingMall = new HashMap<>();
 
-        _shoppingMall.put("Restaurant", new Shop("Restaurant"));
-        Shop shop = _shoppingMall.get("Restaurant");
+        _shoppingMall.put(RESTAURANT, new Shop(RESTAURANT));
+        Shop shop = _shoppingMall.get(RESTAURANT);
         shop.addITem(new Food("Bread", 2, 2));
         shop.addITem(new Food("Fruit", 3, 7));
         shop.addITem(new Food("Pizza", 12, 19));

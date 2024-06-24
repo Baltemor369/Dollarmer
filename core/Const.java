@@ -19,4 +19,6 @@ public class Const {
     public static final String ARTISTIC = "artistic";
     public static final String COMMUNICATION = "communication";
     public static final String SCIENCE = "science";
+
+    public static final String RESTAURANT = "Restaurant";
 }

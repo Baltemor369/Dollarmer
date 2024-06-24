@@ -13,6 +13,7 @@ public class Shop {
     }
 
     public String getName(){return _name;}
+    public Map<String, Item> getStorage() {return _storage;}
     public Item getItem(String key) {return _storage.get(key);}
     public void addITem(Item obj){
         _storage.put(obj.getName(), obj);
