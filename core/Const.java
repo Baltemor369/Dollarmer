@@ -19,6 +19,17 @@ public class Const {
     public static final String ARTISTIC = "artistic";
     public static final String COMMUNICATION = "communication";
     public static final String SCIENCE = "science";
+    
+    // {windows name}
+    public static final String INVENT = "invent";
+    public static final String WORK = "work";
+    public static final String MALL = "mall";
+    public static final String SHOP = "shop";
+
+    // {jobs name}
+    public static final String DOG_SITTING = "Dog sitting";
+    public static final String BABY_SITTING = "Baby sitting";
+    public static final String NIGHT_GUARD = "Night guard";
 
     public static final String RESTAURANT = "Restaurant";
 }

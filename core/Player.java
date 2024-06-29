@@ -43,14 +43,16 @@ public class Player{
     public String getInventString() {return _invent.getInventoryString();}
 
     // money management
-    public void earnMoney(int amount){
-        if (amount>0) {
-            this._money += amount;
-        }
-    }
-    public void spendMoney(int amount){
-        if (0 < amount && amount <= _money) {
-            this._money -= amount;
+    public void addMoney(int amount){if (amount>0) {this._money += amount;}}
+    public void removeMoney(int amount){if (0 < amount && amount <= _money) {this._money -= amount;}}
+    public void buyItem(Item item, int amount){
+        for (int i = 0; i < amount; i++) {
+            if (_money >= item.getPrice()) {
+                _money -= item.getPrice();
+                _invent.addItem(item, amount);
+            }else {
+                break;
+            }
         }
     }
 
@@ -70,13 +72,13 @@ public class Player{
     }
 
     // hungry management
-    public void addHungry(int amount){
+    public void addHunger(int amount){
         _hungry += amount;
         if (_hungry>100) {
             _hungry = 100;
         }
     }
-    public void satiety(int amount){
+    public void removeHunger(int amount){
         _hungry -= amount;
         if (_hungry<0) {
             _hungry = 0;
@@ -84,13 +86,13 @@ public class Player{
     }
 
     // mentalHealth management
-    public void gainMentalHealth(int amount){
+    public void addMentalHealth(int amount){
         _mentalHealth += amount;
         if (_mentalHealth>100) {
             _mentalHealth = 100;
         }
     }
-    public void dicreaseMentalHealth(int amount){
+    public void removeMentalHealth(int amount){
         _mentalHealth -= amount;
         if (_mentalHealth<0) {
             _mentalHealth = 0;
@@ -98,13 +100,13 @@ public class Player{
     }
 
     // hapiness management
-    public void gainHapiness(int amount){
+    public void addHapiness(int amount){
         _happiness += amount;
         if (_happiness>100) {
             _happiness=100;
         }
     }
-    public void looseHapiness(int amount){
+    public void removeHapiness(int amount){
         _happiness -= amount;
         if (_happiness<0) {
             _happiness=0;
@@ -112,7 +114,7 @@ public class Player{
     }
 
     // skills management
-    public void gainSkill(String skill, int points){
+    public void addSkill(String skill, int points){
         switch (skill) {
             case Const.TECHNICAL:
                 _technical += points;

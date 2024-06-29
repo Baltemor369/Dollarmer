@@ -2,10 +2,12 @@ package core;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.Timer;
 
+import static core.Const.BABY_SITTING;
+import static core.Const.DOG_SITTING;
+import static core.Const.NIGHT_GUARD;
 import static core.Const.RESTAURANT;
 
 import java.awt.event.ActionEvent;
@@ -16,14 +18,15 @@ public class Game {
     private Player _player;
     private Timer _exhaustClock, _timeClock;
     private Calendar _calendar = Calendar.getInstance();
-    private Map<String, Shop> _shoppingMall;
+    private HashMap<String, Shop> _shoppingMall;
+    private HashMap<String, Activity> _jobs;
 
     public Game(){
         _player = new Player();
         _calendar.set(2077, 0, 1, 6, 0, 0);
         
+        // shops init
         _shoppingMall = new HashMap<>();
-
         _shoppingMall.put(RESTAURANT, new Shop(RESTAURANT));
         Shop shop = _shoppingMall.get(RESTAURANT);
         shop.addITem(new Food("Bread", 2, 2));
@@ -31,12 +34,18 @@ public class Game {
         shop.addITem(new Food("Pizza", 12, 19));
         shop.addITem(new Food("Bolognese", 15, 30));
 
+        // jobs init
+        _jobs = new HashMap<>();
+        _jobs.put(DOG_SITTING, new Activity("DogSitting 1h 10$", 1, 0, 10, 9, 0, 0, 21));
+        _jobs.put(BABY_SITTING, new Activity("BabySitting 2h 30$", 2, 0, 30, 18, 0, 6, 2));
+        _jobs.put(NIGHT_GUARD, new Activity("Security Guard 6h 80$", 6, 0, 0, 54, 0, 0, 6));
+
         // every minues : player stats update
         _exhaustClock = new Timer(60000, new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 _player.addExhaustion(1);
-                _player.addHungry(1);
+                _player.addHunger(1);
             }
         });
         
@@ -87,5 +96,8 @@ public class Game {
 
     public Player getPlayer(){return _player;}
     public Calendar getCalendar(){return _calendar;}
+    public HashMap<String, Shop> getAllShop(){return _shoppingMall;}
     public Shop getShop(String name){return _shoppingMall.get(name);}
+    public HashMap<String, Activity> getAllJobs(){return _jobs;}
+    public Activity getJob(String name){return _jobs.get(name);}
 }

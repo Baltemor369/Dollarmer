@@ -13,6 +13,10 @@ public class Inventory {
         items = new HashMap<Item, Integer>();
     }
 
+    public String getInfo(){
+        return items.toString();
+    }
+
     // Method to add an item to the inventory. If the item already exists, its quantity is increased.
     public void addItem(Item item, int amount) {
         items.put(item, items.getOrDefault(item, 0) + amount);

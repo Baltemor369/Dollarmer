@@ -21,6 +21,9 @@ public class Activity {
     private Map<String, Integer> _skillsRequirements = new HashMap<>();
     private Map<String, Integer> _skillsBonus = new HashMap<>();
 
+    @Override
+    public String toString() { return _name + "\nSalary :" + _salary + "\nExhaust:" + _exhaustion + "\nHungry :" + _hungry + "\nDuration : " + _hour+":"+_min+":"+_sec + "\nSchedules:" + _hourStart + "-" + _hourEnd; }
+
     public Activity(String name, int hour, int minute, int salary, int exhaustion, int hungry, int startHour, int endHour) {
         this._name = name;
         this._hour = hour;
@@ -64,9 +67,6 @@ public class Activity {
             _skillsBonus.put(Const.SCIENCE, bonuses.get(3));
         }
     }
-
-    @Override
-    public String toString() { return _name + " exhaust:" + _exhaustion + " schedules:" + _hourStart + "-" + _hourEnd; }
 
     public String getName() { return _name; }
     // getter time

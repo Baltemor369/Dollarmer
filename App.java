@@ -1,6 +1,7 @@
 import core.Activity;
 import core.Game;
-// import core.Item;
+import core.Item;
+import core.Shop;
 
 import static core.Const.*;
 import widgets.WButton;
@@ -29,6 +30,7 @@ public class App extends JFrame{
         game = new Game();
         windows.put("invent", null);
         windows.put("work", null);
+        windows.put("mall", null);
         windows.put("shop", null);
 
         windowClock = new Timer(100, new ActionListener() {
@@ -93,27 +95,46 @@ public class App extends JFrame{
         inventButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                inventWindow();
+                if (!windowExists(INVENT)) {
+                    JFrame newWindow = new JFrame("Inventory");
+                    inventWindow(newWindow);
+                    windows.put(INVENT, newWindow);
+                }else {
+                    windows.get(INVENT).toFront();
+                }
             }
         });
 
-        // [Button] works
-        JButton actyButton = WButton.createButton("Works", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+        // [Button] jobs
+        JButton actyButton = WButton.createButton("Jobs", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
         actyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                workWindow();
+                if (!windowExists(INVENT)) {
+                    JFrame newWindow = new JFrame("Jobs");
+                    workWindow(newWindow);
+                    windows.put(WORK, newWindow);
+                }else {
+                    windows.get("work").toFront();
+                }
             }
         });
         
-        // [Button] shop
-        JButton shopButton = WButton.createButton("Shop", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+        // [Button] mall
+        JButton shopButton = WButton.createButton("Mall", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
         shopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                shopWindow();
+                if (!windowExists(INVENT)) {
+                    JFrame newWindow = new JFrame("Mall");
+                    mallWindow(newWindow);
+                    windows.put(MALL, newWindow);
+                }else {
+                    windows.get(MALL).toFront();
+                }
             }
         });
+
         centerPanel.add(inventButton);
         centerPanel.add(sleepButton);
         centerPanel.add(actyButton);
@@ -131,7 +152,7 @@ public class App extends JFrame{
                 int currentHour = game.getCalendar().get(Calendar.HOUR_OF_DAY);
                 if (activity.getHourStart() <= activity.getHourEnd()) {
                     if (currentHour >= activity.getHourStart() && currentHour-activity.getHour() < activity.getHourEnd()) {
-                        game.getPlayer().earnMoney(activity.getSalary());
+                        game.getPlayer().addMoney(activity.getSalary());
                         game.getPlayer().addExhaustion(activity.getExhaust());
                         
                         for (int i = 0; i < (activity.getTimeInMin()); i++) {
@@ -140,7 +161,7 @@ public class App extends JFrame{
                     }
                 } else {
                     if (currentHour >= activity.getHourStart() || currentHour-activity.getHour() < activity.getHourEnd()) {
-                        game.getPlayer().earnMoney(activity.getSalary());
+                        game.getPlayer().addMoney(activity.getSalary());
                         game.getPlayer().addExhaustion(activity.getExhaust());
                         
                         for (int i = 0; i < (activity.getTimeInMin()); i++) {
@@ -152,51 +173,42 @@ public class App extends JFrame{
         });
     }
 
-    public void workWindow(){
-        if (windows.get("work")!=null){
-            windows.get("work").toFront();
-            return;
-        }
-    
-        JFrame newWindow = new JFrame("Works");
+    public void workWindow(JFrame newWindow){
         newWindow.setSize(500, 400);
         newWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         newWindow.setLocationRelativeTo(null);
+        newWindow.setLayout(new BorderLayout());
     
         // [Panel] Button
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.setBorder(new EmptyBorder(0, 0, 30, 0));
     
-        newWindow.add(buttonPanel);
+        newWindow.add(buttonPanel, BorderLayout.CENTER);
     
-        // [Button] DogSitting
-        Activity activity1 = new Activity("DogSitting 1h 10$", 1, 0, 5, 9, 6, 0, 21);
-        buttonPanel.add(createActivityButton(activity1));
-    
-        // [Button] BabySitting
-        Activity activity2 = new Activity("BabySitting 2h 30$", 2, 0, 30, 14, 6, 0, 2);
-        buttonPanel.add(createActivityButton(activity2));
-        
-        // [Button] Night Guard
-        Activity activity3 = new Activity("Security Guard 6h 80$", 6, 0, 0, 74, 0, 0, 6);
-        buttonPanel.add(createActivityButton(activity3));
-    
-        newWindow.setVisible(true);
-        windows.replace("work", newWindow);
-    }
-
-    public void inventWindow(){
-        
-        if (windows.get("invent")!=null){
-            windows.get("invent").toFront();
-            return;
+        for (Activity activity : game.getAllJobs().values()) {
+            buttonPanel.add(createActivityButton(activity));        
         }
 
-        JFrame newWindow = new JFrame("Inventory");
+        JButton backButton = WButton.createButton("Exit", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                windows.replace("work", null);
+                newWindow.dispose();
+            }
+        });
+        
+        newWindow.add(backButton, BorderLayout.SOUTH);
+    
+        newWindow.setVisible(true);
+    }
+
+    public void inventWindow(JFrame newWindow){
         newWindow.setSize(500, 400);
         newWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         newWindow.setLocationRelativeTo(null);
+        newWindow.setLayout(new BorderLayout());
         
         
         JLabel label = new JLabel(game.getPlayer().getInventString(), SwingConstants.CENTER);
@@ -229,36 +241,92 @@ public class App extends JFrame{
         });
 
         panel.add(inventPanel, BorderLayout.CENTER);
-        panel.add(backButton, BorderLayout.SOUTH);
-        newWindow.add(panel);
+        newWindow.add(panel, BorderLayout.CENTER);
+        newWindow.add(backButton, BorderLayout.SOUTH);
 
         windowClock.start();
         newWindow.setVisible(true);
-        windows.replace("invent", newWindow);
     }
 
-    public void shopWindow(){
-        if (windows.get("shop")!=null){
-            windows.get("shop").toFront();
-            return;
-        }
-
-        JFrame newWindow = new JFrame("Shop");
+    public void mallWindow(JFrame newWindow){
         newWindow.setSize(500, 400);
         newWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         newWindow.setLocationRelativeTo(null);
+        newWindow.setLayout(new BorderLayout());
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        JPanel shopPanel = new JPanel();
+        shopPanel.setLayout(new FlowLayout());
 
         JButton backButton = WButton.createButton("Exit", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                windows.replace("invent", null);
+                windows.replace("Mall", null);
                 newWindow.dispose();
             }
         });
 
+        HashMap<String, Shop> shops = game.getAllShop();
+        for (Shop myshop : shops.values()) {
+            JButton shopButton = WButton.createButton(myshop.getName(), "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+            shopButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (!windowExists(INVENT)) {
+                        JFrame newWindow = new JFrame("Mall");
+                        shopWindow(newWindow, myshop);
+                        windows.put(SHOP, newWindow);
+                    }else {
+                        windows.get(SHOP).toFront();
+                    }
+                    
+                }
+            });
+            shopPanel.add(shopButton);
+        }
+        
+        panel.add(shopPanel, BorderLayout.CENTER);
+
+        newWindow.add(panel, BorderLayout.CENTER);
+        newWindow.add(backButton, BorderLayout.SOUTH);
+
         newWindow.setVisible(true);
-        windows.replace("shop", newWindow);
+    }
+
+    public void shopWindow(JFrame newWindow, Shop shop){
+        newWindow.setSize(500, 400);
+        newWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        newWindow.setLocationRelativeTo(null);
+        newWindow.setLayout(new BorderLayout());
+
+        JPanel itemPanel = new JPanel();
+        
+        for (Item item : shop.getItems().values()) {
+            // create a button for each product
+            JButton productButton = WButton.createButton(item.getName(), "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+            productButton.addActionListener(e -> game.getPlayer().buyItem(item, 1));
+            itemPanel.add(productButton);
+        }
+
+        JButton backButton = WButton.createButton("Exit", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                windows.replace("shop", null);
+                newWindow.dispose();
+            }
+        });
+
+        newWindow.add(backButton, BorderLayout.SOUTH);
+        newWindow.add(itemPanel, BorderLayout.CENTER);
+        newWindow.setVisible(true);
+    }
+
+    public boolean windowExists(String windowName) {
+        return windows.containsKey(windowName) && windows.get(windowName) != null;
     }
 
     public static void main(String[] args) throws Exception {
@@ -270,3 +338,4 @@ public class App extends JFrame{
         });
     }
 }
+
