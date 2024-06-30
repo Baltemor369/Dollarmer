@@ -21,8 +21,9 @@ public class Const {
     public static final String SCIENCE = "science";
     
     // {windows name}
+    public static final String MAIN = "main";
     public static final String INVENT = "invent";
-    public static final String WORK = "work";
+    public static final String JOBS = "jobs";
     public static final String MALL = "mall";
     public static final String SHOP = "shop";
 

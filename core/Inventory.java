@@ -1,54 +1,48 @@
 package core;
 
 import java.util.HashMap;
-import java.util.Map;
 
 // The Inventory class represents a collection of items.
 public class Inventory {
     // A map to store items and their corresponding quantities.
-    private Map<Item, Integer> items;
+    private HashMap<String, Item> items;
 
     // Constructor for the Inventory class. Initializes the items map.
     public Inventory() {
-        items = new HashMap<Item, Integer>();
+        items = new HashMap<String, Item>();
     }
 
-    public String getInfo(){
-        return items.toString();
+    public String getInfo(){return items.toString();}
+    public Item getItem(String key) {return items.get(key);}
+    public int getItemCount(String key) {
+        if (items.containsKey(key)) {
+            return items.get(key).getCount();
+        }
+        return 0;
     }
 
     // Method to add an item to the inventory. If the item already exists, its quantity is increased.
-    public void addItem(Item item, int amount) {
-        items.put(item, items.getOrDefault(item, 0) + amount);
+    public void addItem(Item item) {
+        if (!items.containsKey(item.getName())) {
+            items.put(item.getName(), item);
+        }else{
+            items.get(item.getName()).addAmount(item.getCount());
+        }
     }
 
     // Method to remove an item from the inventory. If the quantity of the item is more than amount, it decreases the quantity by amount. Otherwise, it removes the item.
     // Return the quantity of Item removed.
     public int removeItem(Item item, int amount) {
-        if (items.containsKey(item)) {
-            int currentAmount = items.get(item);
+        if (items.containsKey(item.getName())) {
+            int currentAmount = getItemCount(item.getName());
             if (currentAmount > amount) {
-                items.put(item, currentAmount - amount);
+                items.get(item.getName()).removeAmount(amount);;
                 return amount;
             } else {
-                items.remove(item);
+                items.remove(item.getName());
                 return currentAmount;
             }
         }
         return 0;
-    }
-
-    // Method to get the quantity of a specific item in the inventory.
-    public int getItemCount(Item item) {
-        return items.getOrDefault(item, 0);
-    }
-
-    // Method to get a string representation of the inventory. Each item and its quantity are appended to the string.
-    public String getInventoryString() {
-        StringBuilder inventory = new StringBuilder();
-        for (Map.Entry<Item, Integer> entry : items.entrySet()) {
-            inventory.append(entry.getKey()).append(", ").append(entry.getValue()).append("<br>");
-        }
-        return "<html>" + inventory.toString() + "</html>";
-    }
+    }    
 }
