@@ -12,8 +12,16 @@ public class Inventory {
         items = new HashMap<String, Item>();
     }
 
-    public String getInfo(){return items.toString();}
+    public String getInfo(){
+        String text = "<html><ul>";
+        for(Item item : items.values()) {
+            text += "<li>" + item.getName() + ": " + item.getPrice() + "</li>";
+        }
+        text += "</ul></html>";
+        return text;
+    }
     public Item getItem(String key) {return items.get(key);}
+    public HashMap<String, Item> getAllItem() {return items;}
     public int getItemCount(String key) {
         if (items.containsKey(key)) {
             return items.get(key).getCount();

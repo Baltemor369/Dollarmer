@@ -40,16 +40,16 @@ public class Player{
     public int getArtistic() {return _artistic;}
     public int getCommunication() {return _communication;}
     public int getScience() {return _science;}
-    public String getInventString() {return _invent.getInventoryString();}
+    public String getInventString() {return _invent.getInfo();}
 
     // money management
     public void addMoney(int amount){if (amount>0) {this._money += amount;}}
     public void removeMoney(int amount){if (0 < amount && amount <= _money) {this._money -= amount;}}
-    public void buyItem(Item item, int amount){
-        for (int i = 0; i < amount; i++) {
+    public void buyItem(Item item){
+        for (int i = 0; i < item.getCount(); i++) {
             if (_money >= item.getPrice()) {
                 _money -= item.getPrice();
-                _invent.addItem(item, amount);
+                _invent.addItem(item);
             }else {
                 break;
             }
@@ -57,8 +57,7 @@ public class Player{
     }
 
     // inventory management
-    public void addItem(Item item){_invent.addItem(item, 1);}
-    public void addItem(Item item, int amount){_invent.addItem(item, amount);}
+    public void addItem(Item item){_invent.addItem(item);}
 
     // exhaust management
     public void addExhaustion (int amount){

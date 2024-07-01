@@ -15,8 +15,9 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 
 public class Game {
+    private int _lastUpdate;
     private Player _player;
-    private Timer _exhaustClock, _timeClock;
+    private Timer _timeClock;
     private Calendar _calendar = Calendar.getInstance();
     private HashMap<String, Shop> _shoppingMall;
     private HashMap<String, Activity> _jobs;
@@ -29,56 +30,49 @@ public class Game {
         _shoppingMall = new HashMap<>();
         _shoppingMall.put(RESTAURANT, new Shop(RESTAURANT));
         Shop shop = _shoppingMall.get(RESTAURANT);
-        shop.addITem(new Food("Bread", 2, 2));
-        shop.addITem(new Food("Fruit", 3, 7));
-        shop.addITem(new Food("Pizza", 12, 19));
-        shop.addITem(new Food("Bolognese", 15, 30));
+        shop.addITem(new Food("Bread", 2, 2, 1));
+        shop.addITem(new Food("Fruit", 3, 7, 1));
+        shop.addITem(new Food("Pizza", 12, 19, 1));
+        shop.addITem(new Food("Bolognese", 15, 30, 1));
 
         // jobs init
         _jobs = new HashMap<>();
         _jobs.put(DOG_SITTING, new Activity("DogSitting 1h 10$", 1, 0, 10, 9, 0, 0, 21));
         _jobs.put(BABY_SITTING, new Activity("BabySitting 2h 30$", 2, 0, 30, 18, 0, 6, 2));
         _jobs.put(NIGHT_GUARD, new Activity("Security Guard 6h 80$", 6, 0, 0, 54, 0, 0, 6));
-
-        // every minues : player stats update
-        _exhaustClock = new Timer(60000, new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                _player.addExhaustion(1);
-                _player.addHunger(1);
-            }
-        });
         
         // 1s irl = 1m in game 
         _timeClock = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
                 tictac();
-                
             }
         });
     }
 
     public void startClocks(){
-        _exhaustClock.start();
         _timeClock.start();
     }
 
     public void tictac(){
         _calendar.add(Calendar.MINUTE, 1);
-
-        if (_calendar.get(Calendar.MINUTE)==0) {
+        _lastUpdate++;
+        if (_lastUpdate >= 60) {
             _player.addExhaustion(1);
+            _player.addHunger(1);
+            _lastUpdate = 0;
         }
         if (_player.getExhaust()>=100) {
             this.sleep();
-            _player.addExhaustion(20);
         }
     }
 
     public void sleep(){
         _calendar.add(Calendar.HOUR, 7);
         _player.sleep();
+        _player.addHunger(20);
+        _player.addExhaustion(20);
+        _lastUpdate = 0;
     }
 
     public String getDate(){

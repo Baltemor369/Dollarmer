@@ -138,6 +138,7 @@ public class App extends JFrame{
     }
 
     public void jobsWindow(){
+        contentPanel.removeAll();
         contentPanel.setLayout(new BorderLayout());
         // title "Jobs"
         JLabel title = new JLabel("Jobs", SwingConstants.CENTER);
@@ -158,6 +159,7 @@ public class App extends JFrame{
     }
 
     public void inventWindow(){
+        contentPanel.removeAll();
         contentPanel.setLayout(new BorderLayout());
         // title "Inventory"
         JLabel title = new JLabel("Inventory", SwingConstants.CENTER);
@@ -172,6 +174,7 @@ public class App extends JFrame{
     }
 
     public void mallWindow(){
+        contentPanel.removeAll();
         contentPanel.setLayout(new BorderLayout());
         // title "Mall"
         JLabel title = new JLabel("Mall", SwingConstants.CENTER);
@@ -193,6 +196,7 @@ public class App extends JFrame{
     }
 
     public void shopWindow(Shop shop){
+        contentPanel.removeAll();
         contentPanel.setLayout(new BorderLayout());
         // title "Shop"
         JLabel title = new JLabel("Shop", SwingConstants.CENTER);
@@ -204,7 +208,7 @@ public class App extends JFrame{
         
         for (Item item : shop.getItems().values()) {
             JButton productButton = WButton.createButton(item.getName(), "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
-            productButton.addActionListener(e -> game.getPlayer().buyItem(item, 1));
+            productButton.addActionListener(e -> game.getPlayer().buyItem(item));
             itemPanel.add(productButton);
         }
 
