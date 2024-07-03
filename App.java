@@ -203,17 +203,54 @@ public class App extends JFrame{
         title.setFont(FONT_TITLE);
         contentPanel.add(title, BorderLayout.NORTH);
 
-        JPanel itemPanel = new JPanel();
-        itemPanel.setLayout(new FlowLayout());
+        JPanel itemsPanel = new JPanel();
+        itemsPanel.setLayout(new FlowLayout());
         
         for (Item item : shop.getItems().values()) {
-            JButton productButton = WButton.createButton(item.getName(), "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+            JPanel itemPanel = new JPanel();
+            itemPanel.setLayout(new BorderLayout());
+            
+            // in the middle information about the product
+            JButton productButton = WButton.createButton(item.getName() +" "+item.getPrice()+"$", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
             productButton.addActionListener(e -> game.getPlayer().buyItem(item));
-            itemPanel.add(productButton);
+            itemPanel.add(productButton, BorderLayout.CENTER);
+            
+            JPanel subPanel = new JPanel();
+            subPanel.setLayout(new FlowLayout());
+
+            JButton plusButton = new JButton("+");
+            plusButton.addActionListener(e -> {
+                item.addAmount(1);;
+                updateItemCountLabel(item);
+            });
+
+            JLabel countLabel = new JLabel(" " + item.getCount() + " ");
+            countLabel.setFont(FONT_TEXT);
+
+            JButton minusButton = new JButton("-");
+            minusButton.addActionListener(e -> {
+                if (item.getCount() > 0) {
+                    item.removeAmount(1);
+                    updateItemCountLabel(item);
+                }
+            });
+            subPanel.add(minusButton);
+            subPanel.add(countLabel);
+            subPanel.add(plusButton);
+
+            itemsPanel.add(itemPanel, BorderLayout.CENTER);
+            itemsPanel.add(subPanel, BorderLayout.SOUTH);
         }
 
-        contentPanel.add(itemPanel, BorderLayout.CENTER);
+        contentPanel.add(itemsPanel, BorderLayout.CENTER);
         contentPanel.setVisible(true);
+    }
+
+    private void updateItemCountLabel(Item item) {
+        // Mettez à jour l'étiquette d'affichage avec la nouvelle quantité
+        // item.getCount() contient le nombre actuel d'articles achetés
+        // Vous devrez peut-être ajuster cela en fonction de votre interface utilisateur
+        // par exemple, en utilisant un JLabel pour afficher la quantité
     }
 
     public static void main(String[] args) throws Exception {
