@@ -2,6 +2,8 @@ package core;
 
 import java.util.HashMap;
 
+import javax.rmi.ssl.SslRMIClientSocketFactory;
+
 // The Inventory class represents a collection of items.
 public class Inventory {
     // A map to store items and their corresponding quantities.
@@ -15,7 +17,7 @@ public class Inventory {
     public String getInfo(){
         String text = "<html><ul>";
         for(Item item : items.values()) {
-            text += "<li>" + item.getName() + ": " + item.getPrice() + "</li>";
+            text += "<li>" + item.getName() + " "+ item.getPrice() +"$ : " + item.getCount() + "</li>";
         }
         text += "</ul></html>";
         return text;
@@ -30,11 +32,12 @@ public class Inventory {
     }
 
     // Method to add an item to the inventory. If the item already exists, its quantity is increased.
-    public void addItem(Item item) {
-        if (!items.containsKey(item.getName())) {
-            items.put(item.getName(), item);
-        }else{
-            items.get(item.getName()).addAmount(item.getCount());
+    public void addItem(Item itemShop) {
+        // IF doesn't exist add the item to the inventory.
+        if (!items.containsKey(itemShop.getName())) {
+            items.put(itemShop.getName(), itemShop);
+        } else {
+            items.get(itemShop.getName()).addAmount(itemShop.getCount());
         }
     }
 

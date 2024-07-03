@@ -24,6 +24,9 @@ public class Game {
 
     public Game(){
         _player = new Player();
+        // for testing
+        _player.addMoney(100);
+        //--------------------//
         _calendar.set(2077, 0, 1, 6, 0, 0);
         
         // shops init

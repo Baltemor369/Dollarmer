@@ -206,51 +206,52 @@ public class App extends JFrame{
         JPanel itemsPanel = new JPanel();
         itemsPanel.setLayout(new FlowLayout());
         
-        for (Item item : shop.getItems().values()) {
+        for (Item itemShop : shop.getItems().values()) {
+            Item tmp = new Item(itemShop.getName(), itemShop.getPrice(), itemShop.getCount());
             JPanel itemPanel = new JPanel();
             itemPanel.setLayout(new BorderLayout());
-            
-            // in the middle information about the product
-            JButton productButton = WButton.createButton(item.getName() +" "+item.getPrice()+"$", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
-            productButton.addActionListener(e -> game.getPlayer().buyItem(item));
+
+            JButton productButton = WButton.createButton(tmp.getName() +" "+tmp.getPrice()+"$", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+            productButton.addActionListener(e -> {
+                game.getPlayer().buyItem(tmp);
+            });
             itemPanel.add(productButton, BorderLayout.CENTER);
             
             JPanel subPanel = new JPanel();
             subPanel.setLayout(new FlowLayout());
+            itemPanel.add(subPanel, BorderLayout.SOUTH);
 
-            JButton plusButton = new JButton("+");
-            plusButton.addActionListener(e -> {
-                item.addAmount(1);;
-                updateItemCountLabel(item);
-            });
-
-            JLabel countLabel = new JLabel(" " + item.getCount() + " ");
+            JLabel countLabel = new JLabel(" " + tmp.getCount() + " ");
             countLabel.setFont(FONT_TEXT);
-
+            
             JButton minusButton = new JButton("-");
             minusButton.addActionListener(e -> {
-                if (item.getCount() > 0) {
-                    item.removeAmount(1);
-                    updateItemCountLabel(item);
+                if (tmp.getCount() > 1) {
+                    tmp.removeAmount(1);
+                    updateItemCountLabel(countLabel, tmp);
                 }
             });
+            
+            JButton plusButton = new JButton("+");
+            plusButton.addActionListener(e -> {
+                tmp.addAmount(1);;
+                updateItemCountLabel(countLabel, tmp);
+            });
+
             subPanel.add(minusButton);
             subPanel.add(countLabel);
             subPanel.add(plusButton);
 
-            itemsPanel.add(itemPanel, BorderLayout.CENTER);
-            itemsPanel.add(subPanel, BorderLayout.SOUTH);
+            itemPanel.add(subPanel, BorderLayout.SOUTH);
+            itemsPanel.add(itemPanel);
         }
 
         contentPanel.add(itemsPanel, BorderLayout.CENTER);
         contentPanel.setVisible(true);
     }
 
-    private void updateItemCountLabel(Item item) {
-        // Mettez à jour l'étiquette d'affichage avec la nouvelle quantité
-        // item.getCount() contient le nombre actuel d'articles achetés
-        // Vous devrez peut-être ajuster cela en fonction de votre interface utilisateur
-        // par exemple, en utilisant un JLabel pour afficher la quantité
+    private void updateItemCountLabel(JLabel label, Item item) {
+        label.setText(" "+item.getCount()+" ");
     }
 
     public static void main(String[] args) throws Exception {

@@ -46,13 +46,9 @@ public class Player{
     public void addMoney(int amount){if (amount>0) {this._money += amount;}}
     public void removeMoney(int amount){if (0 < amount && amount <= _money) {this._money -= amount;}}
     public void buyItem(Item item){
-        for (int i = 0; i < item.getCount(); i++) {
-            if (_money >= item.getPrice()) {
-                _money -= item.getPrice();
-                _invent.addItem(item);
-            }else {
-                break;
-            }
+        if (_money >= item.getPrice()*item.getCount()) {
+            _money -= item.getPrice()*item.getCount();
+            _invent.addItem(item);
         }
     }
 
