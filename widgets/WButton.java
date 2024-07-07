@@ -5,8 +5,13 @@ import java.awt.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.BevelBorder;
 
+import static src.Const.*;
+
 public class WButton {
     
+    public static JButton createButton(String text) {
+        return createButton(text, "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+    }
     public static JButton createButton(String text, String iconPath, int top, int left, int bottom, int right, Color bg, Color fg, Font font) {
         JButton button = new JButton(text);
 

@@ -1,17 +1,21 @@
-import core.Activity;
-import core.Game;
-import core.Item;
-import core.Shop;
-
-import static core.Const.*;
 import widgets.WButton;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import src.Activity;
+import src.Food;
+import src.Game;
+import src.Item;
+import src.Shop;
+
+import static src.Const.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class App extends JFrame{
     private Game game;
@@ -53,7 +57,7 @@ public class App extends JFrame{
             JPanel buttonPanel = new JPanel();
             buttonPanel.setLayout(new FlowLayout());
 
-                JButton sleepButton = WButton.createButton("Sleep", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+                JButton sleepButton = WButton.createButton("Sleep");
                 sleepButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e){
@@ -63,7 +67,7 @@ public class App extends JFrame{
                     }
                 });
                 // [Button] inventory
-                JButton inventButton = WButton.createButton("Inventory", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+                JButton inventButton = WButton.createButton("Inventory");
                 inventButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e){
@@ -71,7 +75,7 @@ public class App extends JFrame{
                     }
                 });
                 // [Button] jobs
-                JButton actyButton = WButton.createButton("Jobs", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+                JButton actyButton = WButton.createButton("Jobs");
                 actyButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e){
@@ -79,7 +83,7 @@ public class App extends JFrame{
                     }
                 });
                 // [Button] mall
-                JButton shopButton = WButton.createButton("Mall", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+                JButton shopButton = WButton.createButton("Mall");
                 shopButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e){
@@ -166,10 +170,33 @@ public class App extends JFrame{
         title.setFont(FONT_TITLE);
         contentPanel.add(title, BorderLayout.NORTH);
         
-        JLabel label = new JLabel(game.getPlayer().getInventString());
-        label.setFont(FONT_TEXT);
+        JPanel bodyPanel = new JPanel();
+        bodyPanel.setLayout(new FlowLayout());
+        bodyPanel.setBorder(new EmptyBorder(0, 0, 30, 0));
 
-        contentPanel.add(label, BorderLayout.CENTER);
+        JPanel foodPanel = new JPanel();
+        foodPanel.setLayout(new BoxLayout(foodPanel, BoxLayout.Y_AXIS));
+        foodPanel.setBorder(new EmptyBorder(0, 0, 30, 0));
+
+        HashMap<String, Food> items = game.getPlayer().getInventory().getAllFood();
+        for (Food it : items.values()) {
+            JButton button = WButton.createButton(it.toString());
+            button.addActionListener(e -> {
+                game.getPlayer().eat(it);
+                button.setText(it.toString());
+                if (!game.getPlayer().getInventory().getAllFood().containsKey(it.getName())) {
+                    foodPanel.remove(button);
+                }
+            });
+            foodPanel.add(button);
+        }
+        foodPanel.revalidate();
+        foodPanel.repaint();
+        
+        bodyPanel.add(foodPanel);
+
+        contentPanel.add(bodyPanel, BorderLayout.CENTER);
+
         contentPanel.setVisible(true);
     }
 
@@ -187,7 +214,7 @@ public class App extends JFrame{
         buttonPanel.setBorder(new EmptyBorder(0, 0, 30, 0));
         
         for (Shop myshop : game.getAllShop().values()) {
-            JButton shopButton = WButton.createButton(myshop.getName(), "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+            JButton shopButton = WButton.createButton(myshop.getName());
             shopButton.addActionListener(e -> shopWindow(myshop));
             buttonPanel.add(shopButton);
         }
@@ -206,14 +233,13 @@ public class App extends JFrame{
         JPanel itemsPanel = new JPanel();
         itemsPanel.setLayout(new FlowLayout());
         
-        for (Item itemShop : shop.getItems().values()) {
-            Item tmp = new Item(itemShop.getName(), itemShop.getPrice(), itemShop.getCount());
+        for (String key : shop.getItems().keySet()) {
             JPanel itemPanel = new JPanel();
             itemPanel.setLayout(new BorderLayout());
-
-            JButton productButton = WButton.createButton(tmp.getName() +" "+tmp.getPrice()+"$", "", 5, 5, 5, 5, BG_BUTTON, TEXT_COLOR, FONT_TEXT);
+            
+            JButton productButton = WButton.createButton(shop.getItems().get(key).getName() +" "+shop.getItems().get(key).getPrice()+"$");
             productButton.addActionListener(e -> {
-                game.getPlayer().buyItem(tmp);
+                game.getPlayer().buyItem(shop.getItems().get(key));
             });
             itemPanel.add(productButton, BorderLayout.CENTER);
             
@@ -221,21 +247,21 @@ public class App extends JFrame{
             subPanel.setLayout(new FlowLayout());
             itemPanel.add(subPanel, BorderLayout.SOUTH);
 
-            JLabel countLabel = new JLabel(" " + tmp.getCount() + " ");
+            JLabel countLabel = new JLabel(" " + shop.getItems().get(key).getCount() + " ");
             countLabel.setFont(FONT_TEXT);
             
             JButton minusButton = new JButton("-");
             minusButton.addActionListener(e -> {
-                if (tmp.getCount() > 1) {
-                    tmp.removeAmount(1);
-                    updateItemCountLabel(countLabel, tmp);
+                if (shop.getItems().get(key).getCount() > 1) {
+                    shop.getItems().get(key).removeAmount(1);
+                    updateItemCountLabel(countLabel, shop.getItems().get(key));
                 }
             });
             
             JButton plusButton = new JButton("+");
             plusButton.addActionListener(e -> {
-                tmp.addAmount(1);;
-                updateItemCountLabel(countLabel, tmp);
+                shop.getItems().get(key).addAmount(1);;
+                updateItemCountLabel(countLabel, shop.getItems().get(key));
             });
 
             subPanel.add(minusButton);
