@@ -7,6 +7,7 @@ import javax.swing.Timer;
 
 import static src.Const.BABY_SITTING;
 import static src.Const.DOG_SITTING;
+import static src.Const.LIBRARY;
 import static src.Const.NIGHT_GUARD;
 import static src.Const.RESTAURANT;
 
@@ -34,13 +35,14 @@ public class Game {
         _shoppingMall = new HashMap<>();
 
         _shoppingMall.put(RESTAURANT, new Shop(RESTAURANT));
+        _shoppingMall.put(LIBRARY, new Shop(LIBRARY));
 
-        Shop shop = _shoppingMall.get(RESTAURANT);
-        
+        Shop shop = _shoppingMall.get(RESTAURANT);        
         shop.addITem(new Food("Bread", 2, 5, 1));
         shop.addITem(new Food("Fruit", 5, 10, 1));
         shop.addITem(new Food("Pizza", 15, 45, 1));
         shop.addITem(new Food("Bolognese", 19, 55, 1));
+        
 
         // jobs init
         _jobs = new HashMap<>();

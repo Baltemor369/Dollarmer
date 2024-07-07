@@ -151,7 +151,7 @@ public class App extends JFrame{
         
         // Panel for buttons
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout());
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.setBorder(new EmptyBorder(0, 0, 30, 0));
         
         for (Activity activity : game.getAllJobs().values()) {
@@ -196,7 +196,7 @@ public class App extends JFrame{
         bodyPanel.add(foodPanel);
 
         contentPanel.add(bodyPanel, BorderLayout.CENTER);
-
+        
         contentPanel.setVisible(true);
     }
 

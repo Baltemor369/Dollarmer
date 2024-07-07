@@ -32,5 +32,9 @@ public class Const {
     public static final String BABY_SITTING = "Baby sitting";
     public static final String NIGHT_GUARD = "Night guard";
 
+    // {shops name}
     public static final String RESTAURANT = "Restaurant";
+    public static final String LIBRARY = "Library";
+
+    // {food name}
 }
